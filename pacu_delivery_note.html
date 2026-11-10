@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PACU — Delivery Note (24/10/2026 · 鄧全記)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @page { size: A4 portrait; margin: 0; }
+    @media print {
+      body { background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+      .no-print { display: none !important; }
+      #a4-sheet { width: 210mm !important; min-height: 297mm !important; max-height: 297mm !important; margin: 0 !important; box-shadow: none !important; border: none !important; }
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "PingFang HK", "PingFang SC", "Microsoft JhengHei", sans-serif;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color: #0f172a;
+    }
+    #a4-sheet {
+      width: 100%;
+      max-width: 840px;
+      min-height: 1120px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 0 auto;
+    }
+    [contenteditable="true"] { outline: none; border-radius: 2px; }
+    [contenteditable="true"]:hover { background-color: rgba(7, 28, 131, 0.04); }
+    [contenteditable="true"]:focus { background-color: rgba(245, 212, 0, 0.18); box-shadow: 0 1px 0 0 #071C83; }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .dn-table { width: 100%; border-collapse: collapse; font-size: 12.5px; border: 1.5px solid #071C83; }
+    .dn-table th {
+      background-color: #071C83;
+      color: #ffffff;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-right: 1px solid rgba(255,255,255,0.18);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 11.5px;
+    }
+    .dn-table th:last-child { border-right: none; }
+    .dn-table td {
+      padding: 9px 10px;
+      border-right: 1px solid #cbd5e1;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
+    }
+    .dn-table td:last-child { border-right: none; }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 md:p-6">
+  
+  <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <path id="pacu-wordmark-blue" fill-rule="evenodd" d="M74.5,62.0 Q85.0,61.0 104.5,61.0 Q124.0,61.0 135.0,62.0 Q146.0,63.0 158.0,65.5 Q170.0,68.0 183.0,73.5 Q196.0,79.0 202.5,83.5 Q209.0,88.0 218.0,97.5 Q227.0,107.0 232.0,115.5 Q237.0,124.0 240.5,135.0 Q244.0,146.0 244.5,163.5 Q245.0,181.0 244.0,187.0 Q243.0,193.0 239.5,203.5 Q236.0,214.0 228.5,226.5 Q221.0,239.0 212.5,247.5 Q204.0,256.0 193.0,262.5 Q182.0,269.0 174.5,271.5 Q167.0,274.0 152.5,275.5 Q138.0,277.0 134.5,278.5 Q131.0,280.0 129.5,282.5 Q128.0,285.0 128.0,290.0 Q128.0,295.0 128.5,301.5 Q129.0,308.0 126.0,316.5 Q123.0,325.0 119.0,329.0 Q115.0,333.0 106.0,336.0 Q97.0,339.0 80.0,339.0 Q63.0,339.0 56.5,338.0 Q50.0,337.0 46.5,335.5 Q43.0,334.0 36.5,327.5 Q30.0,321.0 26.0,310.5 Q22.0,300.0 21.0,292.0 Q20.0,284.0 19.0,250.5 Q18.0,217.0 15.5,187.5 Q13.0,158.0 13.0,138.5 Q13.0,119.0 14.5,107.0 Q16.0,95.0 19.0,89.0 Q22.0,83.0 25.0,80.0 Q28.0,77.0 35.0,73.0 Q42.0,69.0 53.0,66.0 Q64.0,63.0 74.5,62.0 Z M638.5,80.5 Q651.0,79.0 664.0,80.0 Q677.0,81.0 687.0,84.5 Q697.0,88.0 701.0,90.5 Q705.0,93.0 710.0,98.0 Q715.0,103.0 718.0,109.5 Q721.0,116.0 721.5,123.5 Q722.0,131.0 721.0,136.0 Q720.0,141.0 718.0,146.0 Q716.0,151.0 711.5,156.5 Q707.0,162.0 703.5,164.0 Q700.0,166.0 695.5,167.0 Q691.0,168.0 674.5,168.0 Q658.0,168.0 652.0,169.5 Q646.0,171.0 642.0,173.0 Q638.0,175.0 633.5,179.0 Q629.0,183.0 626.0,188.0 Q623.0,193.0 621.5,199.0 Q620.0,205.0 620.5,210.5 Q621.0,216.0 623.0,221.0 Q625.0,226.0 630.0,231.5 Q635.0,237.0 639.5,239.5 Q644.0,242.0 654.5,243.5 Q665.0,245.0 677.5,242.0 Q690.0,239.0 696.5,239.0 Q703.0,239.0 709.5,241.5 Q716.0,244.0 722.0,249.5 Q728.0,255.0 732.0,264.0 Q736.0,273.0 736.5,280.0 Q737.0,287.0 736.0,292.5 Q735.0,298.0 731.0,306.0 Q727.0,314.0 720.5,320.0 Q714.0,326.0 709.0,328.5 Q704.0,331.0 691.5,334.5 Q679.0,338.0 660.0,338.5 Q641.0,339.0 628.0,337.0 Q615.0,335.0 605.0,331.5 Q595.0,328.0 581.5,320.0 Q568.0,312.0 557.0,301.5 Q546.0,291.0 539.5,281.5 Q533.0,272.0 527.0,256.5 Q521.0,241.0 519.5,229.0 Q518.0,217.0 519.5,201.0 Q521.0,185.0 525.0,172.5 Q529.0,160.0 537.5,145.5 Q546.0,131.0 557.0,120.0 Q568.0,109.0 576.0,103.5 Q584.0,98.0 591.0,94.5 Q598.0,91.0 612.0,86.5 Q626.0,82.0 638.5,80.5 Z M364.0,88.5 Q372.0,87.0 383.0,87.5 Q394.0,88.0 403.0,91.0 Q412.0,94.0 418.0,98.0 Q424.0,102.0 429.5,108.5 Q435.0,115.0 441.5,127.5 Q448.0,140.0 458.0,164.0 Q468.0,188.0 483.5,230.5 Q499.0,273.0 501.5,285.5 Q504.0,298.0 504.0,303.0 Q504.0,308.0 502.5,314.5 Q501.0,321.0 496.5,327.0 Q492.0,333.0 483.0,336.5 Q474.0,340.0 464.0,340.0 Q454.0,340.0 446.0,337.0 Q438.0,334.0 432.0,329.0 Q426.0,324.0 422.0,318.0 Q418.0,312.0 415.5,306.0 Q413.0,300.0 409.0,295.0 Q405.0,290.0 401.5,288.0 Q398.0,286.0 391.0,284.5 Q384.0,283.0 375.5,283.5 Q367.0,284.0 361.0,286.5 Q355.0,289.0 350.5,293.5 Q346.0,298.0 338.5,311.0 Q331.0,324.0 326.0,329.0 Q321.0,334.0 313.0,337.0 Q305.0,340.0 295.0,340.0 Q285.0,340.0 276.0,337.0 Q267.0,334.0 261.5,328.5 Q256.0,323.0 254.0,315.5 Q252.0,308.0 254.5,294.0 Q257.0,280.0 268.0,245.0 Q279.0,210.0 292.0,175.5 Q305.0,141.0 309.5,132.0 Q314.0,123.0 318.0,117.5 Q322.0,112.0 331.0,104.5 Q340.0,97.0 348.0,93.5 Q356.0,90.0 364.0,88.5 Z M958.0,89.5 Q967.0,87.0 972.0,87.0 Q977.0,87.0 983.5,88.5 Q990.0,90.0 995.5,93.0 Q1001.0,96.0 1004.5,99.5 Q1008.0,103.0 1010.5,107.5 Q1013.0,112.0 1014.5,117.5 Q1016.0,123.0 1017.5,139.5 Q1019.0,156.0 1017.5,184.0 Q1016.0,212.0 1012.0,232.5 Q1008.0,253.0 1000.5,270.0 Q993.0,287.0 988.5,293.5 Q984.0,300.0 976.0,308.0 Q968.0,316.0 957.0,323.0 Q946.0,330.0 932.0,334.5 Q918.0,339.0 899.0,339.5 Q880.0,340.0 868.5,337.5 Q857.0,335.0 844.5,329.5 Q832.0,324.0 820.5,315.5 Q809.0,307.0 800.0,296.5 Q791.0,286.0 783.0,270.0 Q775.0,254.0 772.0,244.0 Q769.0,234.0 767.0,220.5 Q765.0,207.0 764.5,176.0 Q764.0,145.0 765.5,137.5 Q767.0,130.0 769.5,124.5 Q772.0,119.0 778.0,112.5 Q784.0,106.0 793.0,102.0 Q802.0,98.0 810.5,97.5 Q819.0,97.0 826.5,99.5 Q834.0,102.0 839.0,106.5 Q844.0,111.0 846.5,115.0 Q849.0,119.0 851.0,125.5 Q853.0,132.0 852.5,152.0 Q852.0,172.0 853.0,180.0 Q854.0,188.0 856.0,194.5 Q858.0,201.0 860.5,205.5 Q863.0,210.0 868.0,214.5 Q873.0,219.0 879.0,221.0 Q885.0,223.0 891.5,223.0 Q898.0,223.0 905.0,220.0 Q912.0,217.0 915.5,213.0 Q919.0,209.0 921.5,203.0 Q924.0,197.0 925.0,192.0 Q926.0,187.0 926.0,158.0 Q926.0,129.0 929.5,118.0 Q933.0,107.0 938.5,101.0 Q944.0,95.0 946.0,94.5 Q948.0,94.0 948.5,93.0 Q949.0,92.0 958.0,89.5 Z M144.5,107.5 Q135.0,106.0 125.0,108.5 Q115.0,111.0 111.0,113.5 Q107.0,116.0 102.0,121.0 Q97.0,126.0 93.5,133.5 Q90.0,141.0 89.5,148.5 Q89.0,156.0 87.0,158.5 Q85.0,161.0 70.5,161.5 Q56.0,162.0 57.0,165.5 Q58.0,169.0 61.0,172.5 Q64.0,176.0 71.5,180.0 Q79.0,184.0 81.0,186.0 Q83.0,188.0 82.5,191.0 Q82.0,194.0 76.0,200.0 Q70.0,206.0 63.5,210.0 Q57.0,214.0 57.5,216.0 Q58.0,218.0 62.0,220.5 Q66.0,223.0 78.0,225.0 Q90.0,227.0 101.0,227.0 Q112.0,227.0 118.0,226.0 Q124.0,225.0 136.5,220.0 Q149.0,215.0 158.5,207.0 Q168.0,199.0 174.5,188.0 Q181.0,177.0 182.5,170.5 Q184.0,164.0 183.5,151.5 Q183.0,139.0 187.0,135.0 Q191.0,131.0 192.0,127.0 Q193.0,123.0 192.0,122.0 Q191.0,121.0 182.5,121.0 Q174.0,121.0 164.0,115.0 Q154.0,109.0 144.5,107.5 Z M136.0,135.0 Q139.0,131.0 142.5,131.5 Q146.0,132.0 148.5,134.5 Q151.0,137.0 151.0,140.0 Q151.0,143.0 148.0,146.0 Q145.0,149.0 142.0,149.0 Q139.0,149.0 136.0,146.0 Q133.0,143.0 133.0,141.0 Q133.0,139.0 136.0,135.0 Z M380.0,181.0 Q375.0,181.0 372.5,182.0 Q370.0,183.0 367.5,185.5 Q365.0,188.0 361.0,195.5 Q357.0,203.0 355.5,207.0 Q354.0,211.0 354.0,217.5 Q354.0,224.0 356.5,227.5 Q359.0,231.0 362.0,232.5 Q365.0,234.0 374.5,234.5 Q384.0,235.0 390.0,234.0 Q396.0,233.0 400.0,230.0 Q404.0,227.0 404.5,220.0 Q405.0,213.0 403.5,208.0 Q402.0,203.0 398.0,196.0 Q394.0,189.0 389.5,185.0 Q385.0,181.0 380.0,181.0 Z" />
+      <path id="pacu-sparks" d="M221.5,18.0 Q225.0,15.0 228.0,15.0 Q231.0,15.0 234.5,16.5 Q238.0,18.0 239.5,19.5 Q241.0,21.0 241.0,25.0 Q241.0,29.0 238.0,35.0 Q235.0,41.0 232.0,44.0 Q229.0,47.0 229.0,48.0 Q229.0,49.0 228.0,49.5 Q227.0,50.0 226.5,52.0 Q226.0,54.0 223.0,58.0 Q220.0,62.0 218.5,63.0 Q217.0,64.0 214.5,64.0 Q212.0,64.0 210.0,63.0 Q208.0,62.0 207.0,57.0 Q206.0,52.0 212.0,36.5 Q218.0,21.0 221.5,18.0 Z M266.0,43.0 Q268.0,42.0 271.5,42.0 Q275.0,42.0 278.0,43.5 Q281.0,45.0 283.0,48.0 Q285.0,51.0 284.5,54.0 Q284.0,57.0 280.0,62.0 Q276.0,67.0 268.0,70.5 Q260.0,74.0 257.5,76.5 Q255.0,79.0 252.0,80.0 Q249.0,81.0 247.5,82.0 Q246.0,83.0 243.0,83.0 Q240.0,83.0 238.0,82.0 Q236.0,81.0 235.0,79.0 Q234.0,77.0 234.5,74.5 Q235.0,72.0 239.5,66.0 Q244.0,60.0 245.0,60.0 Q246.0,60.0 247.5,58.0 Q249.0,56.0 250.0,56.0 Q251.0,56.0 255.5,51.5 Q260.0,47.0 261.0,47.0 Q262.0,47.0 263.0,45.5 Q264.0,44.0 266.0,43.0 Z M275.5,90.0 Q280.0,88.0 285.0,88.0 Q290.0,88.0 294.5,90.0 Q299.0,92.0 300.0,94.0 Q301.0,96.0 300.5,99.5 Q300.0,103.0 299.0,105.0 Q298.0,107.0 294.5,109.5 Q291.0,112.0 280.0,112.0 Q269.0,112.0 264.0,112.0 Q259.0,112.0 255.5,111.0 Q252.0,110.0 250.5,108.5 Q249.0,107.0 249.0,103.5 Q249.0,100.0 253.0,97.0 Q257.0,94.0 264.0,93.0 Q271.0,92.0 275.5,90.0 Z" />
+    </defs>
+  </svg>
+
+
+  <!-- Toolbar -->
+  <div class="no-print mx-auto mb-5 bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm" style="max-width: 840px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;">
+    <div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <h1 style="font-size:14px; font-weight:700; margin:0;">PACU Delivery Note (送货单模板) · 鄧全記</h1>
+        <span style="padding:2px 8px; font-size:11px; font-weight:600; border-radius:4px; background:#071C83; color:#fff;">Minimalist Editorial</span>
+      </div>
+      <p style="font-size:12px; color:#64748b; margin:2px 0 0 0;">点击任意字段可直接修改，修改袋数/箱数自动汇总底部总计。</p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button onclick="addDnRow()" style="padding:6px 12px; border-radius:4px; background:#071C83; color:#fff; font-size:12px; font-weight:600; border:none; cursor:pointer;">+ 添加商品行</button>
+      <button onclick="removeDnRow()" style="padding:6px 12px; border-radius:4px; background:#f1f5f9; color:#0f172a; font-size:12px; font-weight:600; border:1px solid #cbd5e1; cursor:pointer;">- 删末行</button>
+      <button onclick="window.print()" style="padding:6px 14px; border-radius:4px; background:#F5D400; color:#071C83; font-size:12px; font-weight:700; border:none; cursor:pointer;">打印 / 导出 A4 PDF</button>
+    </div>
+  </div>
+
+  <!-- A4 Sheet -->
+  <div id="a4-sheet" class="shadow-lg border border-slate-200">
+    
+    <div style="height: 6px; width: 100%; display: flex;">
+      <div style="width: 76%; background-color: #071C83;"></div>
+      <div style="width: 24%; background-color: #F5D400;"></div>
+    </div>
+
+
+    <div style="padding: 34px 44px 28px 44px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+      <!-- Top Company Banner -->
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 12px; border-bottom: 2px solid #071C83;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 128px;">
+              <svg viewBox="0 0 1024 352" style="width: 100%; height: auto;">
+                <use href="#pacu-wordmark-blue" fill="#071C83" />
+                <use href="#pacu-sparks" fill="#F5D400" />
+              </svg>
+            </div>
+            <div style="border-left: 2px solid #cbd5e1; padding-left: 14px;">
+              <div contenteditable="true" style="font-size: 18px; font-weight: 800; color: #071C83; letter-spacing: 0.03em;">
+                EVERGROW HEALTH SUPPLIES LTD.
+              </div>
+              <div contenteditable="true" style="font-size: 11px; color: #475569; margin-top: 2px;">
+                Unit D2 ON 6/F, Tuen Mun Industrial Centre , No.2 San Ping Circuit ,Tuen Mun, N.T.
+              </div>
+            </div>
+          </div>
+          <div contenteditable="true" style="font-size: 11px; color: #334155; font-weight: 600; text-align: right;">
+            Tel : (852) 2385 7699 &nbsp; Fax : 2385 7828
+          </div>
+        </div>
+
+        <!-- Document Title -->
+        <div style="text-align: center; margin: 22px 0 20px 0;">
+          <h2 contenteditable="true" style="margin: 0; font-size: 24px; font-weight: 800; color: #071C83; letter-spacing: 0.1em; display: inline-block; padding-bottom: 4px; border-bottom: 3px solid #F5D400;">
+            DELIVERY NOTE
+          </h2>
+        </div>
+
+        <!-- Recipient & Shipping Meta Grid -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; margin-bottom: 22px; font-size: 12.5px;">
+          <!-- Left: To & Tel Lines -->
+          <div style="width: 52%; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: baseline; gap: 8px; border-bottom: 1px solid #475569; padding-bottom: 3px;">
+              <span style="font-weight: 700; color: #071C83; width: 36px;">To :</span>
+              <span contenteditable="true" style="font-size: 14px; font-weight: 700; color: #0f172a; flex: 1;">鄧全記</span>
+            </div>
+            <div contenteditable="true" style="border-bottom: 1px solid #cbd5e1; height: 22px;"></div>
+            <div contenteditable="true" style="border-bottom: 1px solid #cbd5e1; height: 22px;"></div>
+            <div contenteditable="true" style="border-bottom: 1px solid #cbd5e1; height: 22px;"></div>
+            <div style="display: flex; align-items: baseline; gap: 8px; border-bottom: 1px solid #475569; padding-bottom: 3px;">
+              <span style="font-weight: 700; color: #071C83; width: 36px;">Tel :</span>
+              <span contenteditable="true" style="flex: 1;"></span>
+            </div>
+            <div style="display: flex; gap: 20px;">
+              <div contenteditable="true" style="flex: 1; border-bottom: 1px solid #cbd5e1; height: 20px;"></div>
+              <div contenteditable="true" style="flex: 1; border-bottom: 1px solid #cbd5e1; height: 20px;"></div>
+            </div>
+          </div>
+
+          <!-- Right: Invoice No, Date, L/C No, Departure Date, Flight No, Vessel, Payment Terms -->
+          <div style="width: 42%; display: flex; flex-direction: column; gap: 7px; font-size: 12px;">
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="width: 110px; text-align: right; font-weight: 600; color: #475569;">Invoice No. :</span>
+              <span contenteditable="true" class="font-mono" style="flex: 1; border-bottom: 1px solid #475569; padding: 1px 6px; text-align: center;"></span>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="width: 110px; text-align: right; font-weight: 600; color: #475569;">Date :</span>
+              <span contenteditable="true" class="font-mono" style="flex: 1; border-bottom: 1px solid #475569; padding: 1px 6px; text-align: center; font-weight: 700; color: #071C83;">24/10/2026</span>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="width: 110px; text-align: right; font-weight: 600; color: #475569;">L/C No. :</span>
+              <span contenteditable="true" class="font-mono" style="flex: 1; border-bottom: 1px solid #475569; padding: 1px 6px; text-align: center;"></span>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="width: 110px; text-align: right; font-weight: 600; color: #475569;">Departure Date :</span>
+              <span contenteditable="true" class="font-mono" style="flex: 1; border-bottom: 1px solid #475569; padding: 1px 6px; text-align: center;"></span>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="width: 110px; text-align: right; font-weight: 600; color: #475569;">Flight No. :</span>
+              <span contenteditable="true" class="font-mono" style="flex: 1; border-bottom: 1px solid #475569; padding: 1px 6px; text-align: center;"></span>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="width: 110px; text-align: right; font-weight: 600; color: #475569;">Vessel :</span>
+              <span contenteditable="true" style="flex: 1; border-bottom: 1px solid #475569; padding: 1px 6px; text-align: center;"></span>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="width: 110px; text-align: right; font-weight: 600; color: #475569;">Payment Terms :</span>
+              <span contenteditable="true" style="flex: 1; border-bottom: 1px solid #475569; padding: 1px 6px; text-align: center;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Delivery Note Table -->
+        <table class="dn-table">
+          <thead>
+            <tr>
+              <th style="width: 13%; text-align: center;">Item#</th>
+              <th style="width: 51%; text-align: center;">DESCRIPTION</th>
+              <th colspan="2" style="width: 14%; text-align: center;">Quantity</th>
+              <th style="width: 11%; text-align: center;">Unit Price<br/>HK$</th>
+              <th style="width: 11%; text-align: center;">Amount<br/>HK$</th>
+            </tr>
+            <tr style="background-color: #f8fafc; border-bottom: 1.5px solid #071C83;">
+              <td style="padding: 5px 10px;"></td>
+              <td contenteditable="true" style="padding: 5px 10px; font-weight: 800; color: #071C83; text-decoration: underline;">MEGA ZOO</td>
+              <td contenteditable="true" style="padding: 5px 6px; text-align: center; font-weight: 700; color: #071C83; width: 7%;">袋</td>
+              <td contenteditable="true" style="padding: 5px 6px; text-align: center; font-weight: 700; color: #071C83; width: 7%;">(箱)</td>
+              <td style="padding: 5px 10px;"></td>
+              <td style="padding: 5px 10px;"></td>
+            </tr>
+          </thead>
+          <tbody id="dn-rows">
+            <tr class="dn-item-row">
+              <td class="font-mono" style="text-align: center;">
+                <span contenteditable="true" style="margin-right: 8px; color: #64748b;">1</span>
+                <strong contenteditable="true" style="color: #0f172a;">3875</strong>
+              </td>
+              <td contenteditable="true">Extr Cockatiels and Small Parrots(Mini Bits) PM13 300g</td>
+              <td contenteditable="true" oninput="recalcDn()" class="bag-cell font-mono" style="text-align: center; font-weight: 600;">60</td>
+              <td contenteditable="true" oninput="recalcDn()" class="box-cell font-mono" style="text-align: center; font-weight: 600;">3</td>
+              <td contenteditable="true" class="font-mono" style="text-align: right;"></td>
+              <td contenteditable="true" class="font-mono" style="text-align: right;"></td>
+            </tr>
+            <tr class="dn-item-row" style="background-color: #f8fafc;">
+              <td class="font-mono" style="text-align: center;">
+                <span contenteditable="true" style="margin-right: 8px; color: #64748b;">2</span>
+                <strong contenteditable="true" style="color: #0f172a;">3843</strong>
+              </td>
+              <td contenteditable="true">Extr Amazonia's fruit 4kg</td>
+              <td contenteditable="true" oninput="recalcDn()" class="bag-cell font-mono" style="text-align: center; font-weight: 600;">2</td>
+              <td contenteditable="true" oninput="recalcDn()" class="box-cell font-mono" style="text-align: center; font-weight: 600;">1</td>
+              <td contenteditable="true" class="font-mono" style="text-align: right;"></td>
+              <td contenteditable="true" class="font-mono" style="text-align: right;"></td>
+            </tr>
+            <tr class="dn-item-row">
+              <td class="font-mono" style="text-align: center;">
+                <span contenteditable="true" style="margin-right: 8px; color: #64748b;">3</span>
+                <strong contenteditable="true" style="color: #0f172a;">3813</strong>
+              </td>
+              <td contenteditable="true">Ext Lory Food SOFT - 700g</td>
+              <td contenteditable="true" oninput="recalcDn()" class="bag-cell font-mono" style="text-align: center; font-weight: 600;">10</td>
+              <td contenteditable="true" oninput="recalcDn()" class="box-cell font-mono" style="text-align: center; font-weight: 600;">1</td>
+              <td contenteditable="true" class="font-mono" style="text-align: right;"></td>
+              <td contenteditable="true" class="font-mono" style="text-align: right;"></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <!-- Spacer rows to preserve classic vertical delivery note form height -->
+            <tr>
+              <td style="height: 220px;"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr style="border-top: 1.5px solid #071C83; background-color: #f8fafc;">
+              <td></td>
+              <td style="text-align: right; font-weight: 700; color: #071C83;">Total Quantity</td>
+              <td id="total-bags" class="font-mono" style="text-align: center; font-weight: 800; color: #071C83; background-color: #F5D400;">72</td>
+              <td id="total-boxes" class="font-mono" style="text-align: center; font-weight: 800; color: #071C83; background-color: #F5D400;">5</td>
+              <td></td>
+              <td style="border-bottom: 3px double #071C83;"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Receiver & Authorized Signature Footer -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; padding-top: 28px; font-size: 12px; color: #475569;">
+        <div style="width: 40%; border-top: 1px solid #64748b; padding-top: 6px;">
+          Received by (Company Chop &amp; Signature)
+        </div>
+        <div style="width: 40%; border-top: 1px solid #64748b; padding-top: 6px; text-align: right;">
+          For and on behalf of <strong style="color: #071C83;">EVERGROW HEALTH SUPPLIES LTD.</strong>
+        </div>
+      </div>
+    </div>
+
+    
+    <div style="width: 100%; height: 14px; position: relative; overflow: hidden;">
+      <svg viewBox="0 0 840 24" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+        <path d="M0,10 Q280,-4 540,14 Q700,22 840,6 L840,24 L0,24 Z" fill="#071C83" />
+        <path d="M0,18 Q300,8 560,20 Q720,24 840,14 L840,24 L0,24 Z" fill="#F5D400" />
+      </svg>
+    </div>
+
+  </div>
+
+  <script>
+    function recalcDn() {
+      let bags = 0, boxes = 0;
+      document.querySelectorAll('#dn-rows .dn-item-row').forEach(r => {
+        const b1 = parseFloat(r.querySelector('.bag-cell')?.innerText.trim() || '0');
+        const b2 = parseFloat(r.querySelector('.box-cell')?.innerText.trim() || '0');
+        if (!isNaN(b1)) bags += b1;
+        if (!isNaN(b2)) boxes += b2;
+      });
+      document.getElementById('total-bags').innerText = bags;
+      document.getElementById('total-boxes').innerText = boxes;
+    }
+    function addDnRow() {
+      const tbody = document.getElementById('dn-rows');
+      const idx = tbody.children.length + 1;
+      const tr = document.createElement('tr');
+      tr.className = 'dn-item-row';
+      tr.innerHTML = `
+        <td class="font-mono" style="text-align: center;"><span contenteditable="true" style="margin-right: 8px; color: #64748b;">${idx}</span><strong contenteditable="true" style="color: #0f172a;">0000</strong></td>
+        <td contenteditable="true">New Product Description</td>
+        <td contenteditable="true" oninput="recalcDn()" class="bag-cell font-mono" style="text-align: center; font-weight: 600;">1</td>
+        <td contenteditable="true" oninput="recalcDn()" class="box-cell font-mono" style="text-align: center; font-weight: 600;">1</td>
+        <td contenteditable="true" class="font-mono" style="text-align: right;"></td>
+        <td contenteditable="true" class="font-mono" style="text-align: right;"></td>
+      `;
+      tbody.appendChild(tr);
+      recalcDn();
+    }
+    function removeDnRow() {
+      const tbody = document.getElementById('dn-rows');
+      if (tbody.children.length > 1) {
+        tbody.removeChild(tbody.lastElementChild);
+        recalcDn();
+      }
+    }
+  </script>
+</body>
+</html>

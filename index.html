@@ -3,658 +3,219 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PACU — Sales Receipt / Invoice (Minimalist Edition)</title>
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <title>PACU — Business Document Suite (Minimalist Editorial)</title>
   <style>
-    @page {
-      size: A4 portrait;
-      margin: 0;
-    }
-    @media print {
-      body {
-        background: #ffffff !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-      .no-print {
-        display: none !important;
-      }
-      #a4-sheet {
-        width: 210mm !important;
-        min-height: 297mm !important;
-        max-height: 297mm !important;
-        margin: 0 !important;
-        box-shadow: none !important;
-        border: none !important;
-        border-radius: 0 !important;
-      }
-    }
-
-    *, *::before, *::after { box-sizing: border-box; }
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      background: #F8FAFC; color: #0F172A; line-height: 1.5;
     }
-    svg { display: block; }
-
-    #a4-sheet {
-      width: 100%;
-      max-width: 840px;
-      background: #ffffff;
-      color: #0f172a;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .top-bar { height: 6px; width: 100%; display: flex; }
+    .top-bar-blue { width: 76%; background: #071C83; }
+    .top-bar-yellow { width: 24%; background: #F5D400; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 40px 24px 64px; }
+    .hero {
+      background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px;
+      padding: 28px 32px; display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 20px; box-shadow: 0 10px 30px rgba(7,28,131,0.05); margin-bottom: 28px;
     }
-
-    [contenteditable="true"] {
-      outline: none;
-      border-radius: 2px;
-      transition: background-color 0.12s ease;
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #EEF2FF; color: #071C83; font-size: 11px; font-weight: 800;
+      padding: 4px 10px; border-radius: 999px; letter-spacing: 0.06em; text-transform: uppercase;
     }
-    [contenteditable="true"]:hover {
-      background-color: rgba(7, 28, 131, 0.04);
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;
     }
-    [contenteditable="true"]:focus {
-      background-color: rgba(245, 212, 0, 0.18);
-      box-shadow: 0 1px 0 0 #071C83;
+    .card {
+      background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px;
+      overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 16px rgba(15,23,42,0.03);
     }
-
-    /* Clean layout classes for both screen and offline PDF export */
-    .mx-auto { margin-left: auto; margin-right: auto; }
-    .flex { display: flex; }
-    .grid { display: grid; }
-    .flex-col { flex-direction: column; }
-    .flex-wrap { flex-wrap: wrap; }
-    .flex-1 { flex: 1 1 0%; }
-    .shrink-0 { flex-shrink: 0; }
-    .items-center { align-items: center; }
-    .items-start { align-items: flex-start; }
-    .items-end { align-items: flex-end; }
-    .items-baseline { align-items: baseline; }
-    .justify-between { justify-content: space-between; }
-    .justify-end { justify-content: flex-end; }
-    .grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-    .col-span-5 { grid-column: span 5 / span 5; }
-    .col-span-6 { grid-column: span 6 / span 6; }
-    .col-span-7 { grid-column: span 7 / span 7; }
-    .gap-2 { gap: 0.5rem; }
-    .gap-3 { gap: 0.75rem; }
-    .gap-6 { gap: 1.5rem; }
-    .gap-8 { gap: 2rem; }
-    .w-full { width: 100%; }
-    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-
-    /* Minimalist Table Styling */
-    .inv-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(7,28,131,0.09);
+      border-color: #CBD5E1;
     }
-    .inv-table th {
-      background-color: #071C83;
-      color: #ffffff;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 8px 12px;
-      font-size: 11px;
-      border-right: 1px solid rgba(255, 255, 255, 0.12);
+    .card-top { height: 4px; display: flex; }
+    .card-top .b { width: 76%; background: #071C83; }
+    .card-top .y { width: 24%; background: #F5D400; }
+    .card-body { padding: 22px 24px; }
+    .doc-num {
+      font-size: 11px; font-weight: 800; color: #071C83; background: #F5D400;
+      padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px;
     }
-    .inv-table th:last-child {
-      border-right: none;
+    .card-title { font-size: 17px; font-weight: 800; color: #0F172A; margin-bottom: 4px; }
+    .card-sub { font-size: 12.5px; color: #64748B; margin-bottom: 14px; }
+    .meta-list {
+      background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;
+      padding: 10px 12px; font-size: 12px; color: #334155; display: flex; flex-direction: column; gap: 4px;
     }
-    .inv-table td {
-      padding: 7px 12px;
-      border-bottom: 1px solid #e2e8f0;
-      border-right: 1px solid #f1f5f9;
-      color: #1e293b;
-      font-size: 12px;
+    .card-actions {
+      padding: 14px 24px; background: #F8FAFC; border-top: 1px solid #E2E8F0;
+      display: flex; gap: 10px;
     }
-    .inv-table td:last-child {
-      border-right: none;
+    .btn-primary {
+      flex: 1; text-align: center; background: #071C83; color: #FFFFFF;
+      text-decoration: none; font-size: 12.5px; font-weight: 700; padding: 8px 12px;
+      border-radius: 6px; transition: opacity 0.15s;
     }
-    .inv-table tr:nth-child(even) td {
-      background-color: #f8fafc;
+    .btn-primary:hover { opacity: 0.92; }
+    .btn-secondary {
+      flex: 1; text-align: center; background: #FFFFFF; color: #071C83;
+      border: 1px solid #CBD5E1; text-decoration: none; font-size: 12.5px; font-weight: 700;
+      padding: 8px 12px; border-radius: 6px;
     }
-    .inv-table tr.blank-row td {
-      height: 25px;
-      padding: 4px 12px;
-    }
+    .btn-secondary:hover { background: #F1F5F9; }
   </style>
 </head>
-<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 md:p-6">
-
-  <!-- Exact Traced PACU Logo Vector Defs -->
-  <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
-    <defs>
-      <path id="pacu-wordmark-blue" fill-rule="evenodd" d="M74.5,62.0 Q85.0,61.0 104.5,61.0 Q124.0,61.0 135.0,62.0 Q146.0,63.0 158.0,65.5 Q170.0,68.0 183.0,73.5 Q196.0,79.0 202.5,83.5 Q209.0,88.0 218.0,97.5 Q227.0,107.0 232.0,115.5 Q237.0,124.0 240.5,135.0 Q244.0,146.0 244.5,163.5 Q245.0,181.0 244.0,187.0 Q243.0,193.0 239.5,203.5 Q236.0,214.0 228.5,226.5 Q221.0,239.0 212.5,247.5 Q204.0,256.0 193.0,262.5 Q182.0,269.0 174.5,271.5 Q167.0,274.0 152.5,275.5 Q138.0,277.0 134.5,278.5 Q131.0,280.0 129.5,282.5 Q128.0,285.0 128.0,290.0 Q128.0,295.0 128.5,301.5 Q129.0,308.0 126.0,316.5 Q123.0,325.0 119.0,329.0 Q115.0,333.0 106.0,336.0 Q97.0,339.0 80.0,339.0 Q63.0,339.0 56.5,338.0 Q50.0,337.0 46.5,335.5 Q43.0,334.0 36.5,327.5 Q30.0,321.0 26.0,310.5 Q22.0,300.0 21.0,292.0 Q20.0,284.0 19.0,250.5 Q18.0,217.0 15.5,187.5 Q13.0,158.0 13.0,138.5 Q13.0,119.0 14.5,107.0 Q16.0,95.0 19.0,89.0 Q22.0,83.0 25.0,80.0 Q28.0,77.0 35.0,73.0 Q42.0,69.0 53.0,66.0 Q64.0,63.0 74.5,62.0 Z M638.5,80.5 Q651.0,79.0 664.0,80.0 Q677.0,81.0 687.0,84.5 Q697.0,88.0 701.0,90.5 Q705.0,93.0 710.0,98.0 Q715.0,103.0 718.0,109.5 Q721.0,116.0 721.5,123.5 Q722.0,131.0 721.0,136.0 Q720.0,141.0 718.0,146.0 Q716.0,151.0 711.5,156.5 Q707.0,162.0 703.5,164.0 Q700.0,166.0 695.5,167.0 Q691.0,168.0 674.5,168.0 Q658.0,168.0 652.0,169.5 Q646.0,171.0 642.0,173.0 Q638.0,175.0 633.5,179.0 Q629.0,183.0 626.0,188.0 Q623.0,193.0 621.5,199.0 Q620.0,205.0 620.5,210.5 Q621.0,216.0 623.0,221.0 Q625.0,226.0 630.0,231.5 Q635.0,237.0 639.5,239.5 Q644.0,242.0 654.5,243.5 Q665.0,245.0 677.5,242.0 Q690.0,239.0 696.5,239.0 Q703.0,239.0 709.5,241.5 Q716.0,244.0 722.0,249.5 Q728.0,255.0 732.0,264.0 Q736.0,273.0 736.5,280.0 Q737.0,287.0 736.0,292.5 Q735.0,298.0 731.0,306.0 Q727.0,314.0 720.5,320.0 Q714.0,326.0 709.0,328.5 Q704.0,331.0 691.5,334.5 Q679.0,338.0 660.0,338.5 Q641.0,339.0 628.0,337.0 Q615.0,335.0 605.0,331.5 Q595.0,328.0 581.5,320.0 Q568.0,312.0 557.0,301.5 Q546.0,291.0 539.5,281.5 Q533.0,272.0 527.0,256.5 Q521.0,241.0 519.5,229.0 Q518.0,217.0 519.5,201.0 Q521.0,185.0 525.0,172.5 Q529.0,160.0 537.5,145.5 Q546.0,131.0 557.0,120.0 Q568.0,109.0 576.0,103.5 Q584.0,98.0 591.0,94.5 Q598.0,91.0 612.0,86.5 Q626.0,82.0 638.5,80.5 Z M364.0,88.5 Q372.0,87.0 383.0,87.5 Q394.0,88.0 403.0,91.0 Q412.0,94.0 418.0,98.0 Q424.0,102.0 429.5,108.5 Q435.0,115.0 441.5,127.5 Q448.0,140.0 458.0,164.0 Q468.0,188.0 483.5,230.5 Q499.0,273.0 501.5,285.5 Q504.0,298.0 504.0,303.0 Q504.0,308.0 502.5,314.5 Q501.0,321.0 496.5,327.0 Q492.0,333.0 483.0,336.5 Q474.0,340.0 464.0,340.0 Q454.0,340.0 446.0,337.0 Q438.0,334.0 432.0,329.0 Q426.0,324.0 422.0,318.0 Q418.0,312.0 415.5,306.0 Q413.0,300.0 409.0,295.0 Q405.0,290.0 401.5,288.0 Q398.0,286.0 391.0,284.5 Q384.0,283.0 375.5,283.5 Q367.0,284.0 361.0,286.5 Q355.0,289.0 350.5,293.5 Q346.0,298.0 338.5,311.0 Q331.0,324.0 326.0,329.0 Q321.0,334.0 313.0,337.0 Q305.0,340.0 295.0,340.0 Q285.0,340.0 276.0,337.0 Q267.0,334.0 261.5,328.5 Q256.0,323.0 254.0,315.5 Q252.0,308.0 254.5,294.0 Q257.0,280.0 268.0,245.0 Q279.0,210.0 292.0,175.5 Q305.0,141.0 309.5,132.0 Q314.0,123.0 318.0,117.5 Q322.0,112.0 331.0,104.5 Q340.0,97.0 348.0,93.5 Q356.0,90.0 364.0,88.5 Z M958.0,89.5 Q967.0,87.0 972.0,87.0 Q977.0,87.0 983.5,88.5 Q990.0,90.0 995.5,93.0 Q1001.0,96.0 1004.5,99.5 Q1008.0,103.0 1010.5,107.5 Q1013.0,112.0 1014.5,117.5 Q1016.0,123.0 1017.5,139.5 Q1019.0,156.0 1017.5,184.0 Q1016.0,212.0 1012.0,232.5 Q1008.0,253.0 1000.5,270.0 Q993.0,287.0 988.5,293.5 Q984.0,300.0 976.0,308.0 Q968.0,316.0 957.0,323.0 Q946.0,330.0 932.0,334.5 Q918.0,339.0 899.0,339.5 Q880.0,340.0 868.5,337.5 Q857.0,335.0 844.5,329.5 Q832.0,324.0 820.5,315.5 Q809.0,307.0 800.0,296.5 Q791.0,286.0 783.0,270.0 Q775.0,254.0 772.0,244.0 Q769.0,234.0 767.0,220.5 Q765.0,207.0 764.5,176.0 Q764.0,145.0 765.5,137.5 Q767.0,130.0 769.5,124.5 Q772.0,119.0 778.0,112.5 Q784.0,106.0 793.0,102.0 Q802.0,98.0 810.5,97.5 Q819.0,97.0 826.5,99.5 Q834.0,102.0 839.0,106.5 Q844.0,111.0 846.5,115.0 Q849.0,119.0 851.0,125.5 Q853.0,132.0 852.5,152.0 Q852.0,172.0 853.0,180.0 Q854.0,188.0 856.0,194.5 Q858.0,201.0 860.5,205.5 Q863.0,210.0 868.0,214.5 Q873.0,219.0 879.0,221.0 Q885.0,223.0 891.5,223.0 Q898.0,223.0 905.0,220.0 Q912.0,217.0 915.5,213.0 Q919.0,209.0 921.5,203.0 Q924.0,197.0 925.0,192.0 Q926.0,187.0 926.0,158.0 Q926.0,129.0 929.5,118.0 Q933.0,107.0 938.5,101.0 Q944.0,95.0 946.0,94.5 Q948.0,94.0 948.5,93.0 Q949.0,92.0 958.0,89.5 Z M144.5,107.5 Q135.0,106.0 125.0,108.5 Q115.0,111.0 111.0,113.5 Q107.0,116.0 102.0,121.0 Q97.0,126.0 93.5,133.5 Q90.0,141.0 89.5,148.5 Q89.0,156.0 87.0,158.5 Q85.0,161.0 70.5,161.5 Q56.0,162.0 57.0,165.5 Q58.0,169.0 61.0,172.5 Q64.0,176.0 71.5,180.0 Q79.0,184.0 81.0,186.0 Q83.0,188.0 82.5,191.0 Q82.0,194.0 76.0,200.0 Q70.0,206.0 63.5,210.0 Q57.0,214.0 57.5,216.0 Q58.0,218.0 62.0,220.5 Q66.0,223.0 78.0,225.0 Q90.0,227.0 101.0,227.0 Q112.0,227.0 118.0,226.0 Q124.0,225.0 136.5,220.0 Q149.0,215.0 158.5,207.0 Q168.0,199.0 174.5,188.0 Q181.0,177.0 182.5,170.5 Q184.0,164.0 183.5,151.5 Q183.0,139.0 187.0,135.0 Q191.0,131.0 192.0,127.0 Q193.0,123.0 192.0,122.0 Q191.0,121.0 182.5,121.0 Q174.0,121.0 164.0,115.0 Q154.0,109.0 144.5,107.5 Z M136.0,135.0 Q139.0,131.0 142.5,131.5 Q146.0,132.0 148.5,134.5 Q151.0,137.0 151.0,140.0 Q151.0,143.0 148.0,146.0 Q145.0,149.0 142.0,149.0 Q139.0,149.0 136.0,146.0 Q133.0,143.0 133.0,141.0 Q133.0,139.0 136.0,135.0 Z M380.0,181.0 Q375.0,181.0 372.5,182.0 Q370.0,183.0 367.5,185.5 Q365.0,188.0 361.0,195.5 Q357.0,203.0 355.5,207.0 Q354.0,211.0 354.0,217.5 Q354.0,224.0 356.5,227.5 Q359.0,231.0 362.0,232.5 Q365.0,234.0 374.5,234.5 Q384.0,235.0 390.0,234.0 Q396.0,233.0 400.0,230.0 Q404.0,227.0 404.5,220.0 Q405.0,213.0 403.5,208.0 Q402.0,203.0 398.0,196.0 Q394.0,189.0 389.5,185.0 Q385.0,181.0 380.0,181.0 Z" />
-      <path id="pacu-sparks" d="M221.5,18.0 Q225.0,15.0 228.0,15.0 Q231.0,15.0 234.5,16.5 Q238.0,18.0 239.5,19.5 Q241.0,21.0 241.0,25.0 Q241.0,29.0 238.0,35.0 Q235.0,41.0 232.0,44.0 Q229.0,47.0 229.0,48.0 Q229.0,49.0 228.0,49.5 Q227.0,50.0 226.5,52.0 Q226.0,54.0 223.0,58.0 Q220.0,62.0 218.5,63.0 Q217.0,64.0 214.5,64.0 Q212.0,64.0 210.0,63.0 Q208.0,62.0 207.0,57.0 Q206.0,52.0 212.0,36.5 Q218.0,21.0 221.5,18.0 Z M266.0,43.0 Q268.0,42.0 271.5,42.0 Q275.0,42.0 278.0,43.5 Q281.0,45.0 283.0,48.0 Q285.0,51.0 284.5,54.0 Q284.0,57.0 280.0,62.0 Q276.0,67.0 268.0,70.5 Q260.0,74.0 257.5,76.5 Q255.0,79.0 252.0,80.0 Q249.0,81.0 247.5,82.0 Q246.0,83.0 243.0,83.0 Q240.0,83.0 238.0,82.0 Q236.0,81.0 235.0,79.0 Q234.0,77.0 234.5,74.5 Q235.0,72.0 239.5,66.0 Q244.0,60.0 245.0,60.0 Q246.0,60.0 247.5,58.0 Q249.0,56.0 250.0,56.0 Q251.0,56.0 255.5,51.5 Q260.0,47.0 261.0,47.0 Q262.0,47.0 263.0,45.5 Q264.0,44.0 266.0,43.0 Z M275.5,90.0 Q280.0,88.0 285.0,88.0 Q290.0,88.0 294.5,90.0 Q299.0,92.0 300.0,94.0 Q301.0,96.0 300.5,99.5 Q300.0,103.0 299.0,105.0 Q298.0,107.0 294.5,109.5 Q291.0,112.0 280.0,112.0 Q269.0,112.0 264.0,112.0 Q259.0,112.0 255.5,111.0 Q252.0,110.0 250.5,108.5 Q249.0,107.0 249.0,103.5 Q249.0,100.0 253.0,97.0 Q257.0,94.0 264.0,93.0 Q271.0,92.0 275.5,90.0 Z" />
-    </defs>
-  </svg>
-
-  <!-- ========================================================================= -->
-  <!-- TOP CONTROL BAR (Hidden on Print / PDF Export)                            -->
-  <!-- ========================================================================= -->
-  <div class="no-print mx-auto mb-5 bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm" style="max-width: 840px;">
-    <div class="flex flex-wrap items-center justify-between gap-3">
+<body>
+  <div class="top-bar"><div class="top-bar-blue"></div><div class="top-bar-yellow"></div></div>
+  <div class="container">
+    <div class="hero">
       <div>
-        <div class="flex items-center gap-2">
-          <h1 class="text-sm font-bold text-[var(--foreground)]">PACU Sales Receipt · 极简现代商务版</h1>
-          <span class="px-2 py-0.5 text-xs font-medium rounded bg-[#071C83] text-white">Minimalist Editorial</span>
-        </div>
-        <p class="text-xs text-[var(--muted-foreground)] mt-0.5">
-          去除繁复装饰纹样与卡通贴纸感，以利落线条、深宝蓝与克制的明黄细线呈现。点击任意文字或数字可直接编辑并自动重算。
+        <div class="badge">PACU Brand Identity · Minimalist Editorial Suite</div>
+        <h1 style="font-size:26px;font-weight:800;color:#071C83;margin-top:8px;">PACU 极简现代商务单据模板全集 (6 套)</h1>
+        <p style="font-size:13.5px;color:#475569;margin-top:4px;">
+          统一采用深皇室蓝 (<code class="mono">#071C83</code>) + 暖阳黄 (<code class="mono">#F5D400</code>) 极简社论排版，支持网页直接点击编辑 (<code class="mono">contenteditable</code>) 与单页 A4 矢量 PDF 导出。
         </p>
       </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <button onclick="addProductRow()" class="px-3 py-1.5 rounded bg-[#071C83] text-white text-xs font-semibold hover:opacity-90 transition">
-          + 添加商品行
-        </button>
-        <button onclick="addBlankRow()" class="px-3 py-1.5 rounded bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] text-xs font-semibold">
-          + 空白行
-        </button>
-        <button onclick="removeLastRow()" class="px-3 py-1.5 rounded bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] text-xs font-semibold">
-          - 删末行
-        </button>
-        <button onclick="toggleNumberFormat()" id="btn-format" class="px-3 py-1.5 rounded bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] text-xs font-semibold">
-          格式: 9.700,00
-        </button>
-        <button onclick="window.print()" class="px-3.5 py-1.5 rounded bg-[#F5D400] text-[#071C83] text-xs font-bold shadow-sm hover:opacity-90 transition">
-          打印 / 导出 A4 PDF
-        </button>
+      <div style="text-align:right;font-size:12.5px;color:#475569;">
+        <div><strong>GitHub Repository:</strong> <span class="mono" style="color:#071C83;">megazoo-ai/pacu-invoice-template</span></div>
+        <div style="margin-top:4px;"><strong>Format:</strong> Single-Page A4 Portrait (210mm × 297mm)</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- 01 -->
+      <div class="card">
+        <div>
+          <div class="card-top"><div class="b"></div><div class="y"></div></div>
+          <div class="card-body">
+            <span class="doc-num mono">DOC 01 · CNY SALES RECEIPT</span>
+            <div class="card-title">Sales Receipt (内地现货人民币收据)</div>
+            <div class="card-sub">附带底部可撕式 Sales Receipt Slip 回执联</div>
+            <div class="meta-list">
+              <div><strong>Receipt #:</strong> <span class="mono">MG-NJ-26NOV-L0-PW</span></div>
+              <div><strong>Customer:</strong> 内有玄机-NJ (2026年11月6日)</div>
+              <div><strong>Total:</strong> <span class="mono" style="color:#071C83;font-weight:700;">CNY 1.545,00</span> (2 Items)</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a class="btn-primary" href="pacu_invoice_template.html">打开可编辑 HTML</a>
+          <a class="btn-secondary" href="PACU_Sales_Receipt_MG-NJ-26NOV-L0-PW.pdf">下载 A4 PDF</a>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="card">
+        <div>
+          <div class="card-top"><div class="b"></div><div class="y"></div></div>
+          <div class="card-body">
+            <span class="doc-num mono">DOC 02 · HKD SALES RECEIPT</span>
+            <div class="card-title">Sales Receipt (港现货港币收据)</div>
+            <div class="card-sub">附带底部可撕式 Sales Receipt Slip 回执联</div>
+            <div class="meta-list">
+              <div><strong>Receipt #:</strong> <span class="mono">MG-DQ-26SEP-L0-PW</span></div>
+              <div><strong>Customer:</strong> 邓全记-DQ · HONG KONG (Oct 24, 2026)</div>
+              <div><strong>Total:</strong> <span class="mono" style="color:#071C83;font-weight:700;">HKD 3.380,00</span> (3 Items)</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a class="btn-primary" href="pacu_sales_receipt_hkd.html">打开可编辑 HTML</a>
+          <a class="btn-secondary" href="PACU_Sales_Receipt_MG-DQ-26SEP-L0-PW.pdf">下载 A4 PDF</a>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="card">
+        <div>
+          <div class="card-top"><div class="b"></div><div class="y"></div></div>
+          <div class="card-body">
+            <span class="doc-num mono">DOC 03 · DELIVERY NOTE</span>
+            <div class="card-title">Delivery Note (香港送货单)</div>
+            <div class="card-sub">含袋/箱双栏数量统计与客户签章栏</div>
+            <div class="meta-list">
+              <div><strong>Issuer:</strong> EVERGROW HEALTH SUPPLIES LTD.</div>
+              <div><strong>To:</strong> 鄧全記 · Date: <span class="mono">24/10/2026</span></div>
+              <div><strong>Total Quantity:</strong> <span class="mono" style="color:#071C83;font-weight:700;">72 袋 / 5 (箱)</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a class="btn-primary" href="pacu_delivery_note.html">打开可编辑 HTML</a>
+          <a class="btn-secondary" href="PACU_Delivery_Note_24-10-2026.pdf">下载 A4 PDF</a>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="card">
+        <div>
+          <div class="card-top"><div class="b"></div><div class="y"></div></div>
+          <div class="card-body">
+            <span class="doc-num mono">DOC 04 · COMMERCIAL INVOICE</span>
+            <div class="card-title">Commercial Invoice (含海运商业发票)</div>
+            <div class="card-sub">含 36 项商品明细、海运费、General Cargo Data 及银行信息</div>
+            <div class="meta-list">
+              <div><strong>Invoice n°:</strong> <span class="mono">013-2025</span> (January 7, 2026)</div>
+              <div><strong>Parties:</strong> MASTERZOO LTDA → Evergrow Health Supplies</div>
+              <div><strong>Total:</strong> <span class="mono" style="color:#071C83;font-weight:700;">USD $ 23.456,49</span> (EXW + Freight)</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a class="btn-primary" href="pacu_commercial_invoice.html">打开可编辑 HTML</a>
+          <a class="btn-secondary" href="PACU_Commercial_Invoice_013-2025.pdf">下载 A4 PDF</a>
+        </div>
+      </div>
+
+      <!-- 05 -->
+      <div class="card">
+        <div>
+          <div class="card-top"><div class="b"></div><div class="y"></div></div>
+          <div class="card-body">
+            <span class="doc-num mono">DOC 05 · PACKING LIST</span>
+            <div class="card-title">Packing List (10 托盘出口装箱单)</div>
+            <div class="card-sub">已去除草稿红字水印，按 PALLET 1–10 分组排列 36 项明细</div>
+            <div class="meta-list">
+              <div><strong>Invoice n°:</strong> <span class="mono">013-2025</span> (December 12, 2025)</div>
+              <div><strong>Pallets:</strong> 10 Certified Wooden Pallets · Volume: 617</div>
+              <div><strong>Weight:</strong> <span class="mono" style="color:#071C83;font-weight:700;">Net 4852,00Kg / Gross 5063,92Kg</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a class="btn-primary" href="pacu_packing_list.html">打开可编辑 HTML</a>
+          <a class="btn-secondary" href="PACU_Packing_List_013-2025.pdf">下载 A4 PDF</a>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="card">
+        <div>
+          <div class="card-top"><div class="b"></div><div class="y"></div></div>
+          <div class="card-body">
+            <span class="doc-num mono">DOC 06 · CIF EXPORT INVOICE</span>
+            <div class="card-title">Export CIF Invoice (台湾铠成 62 项商业发票)</div>
+            <div class="card-sub">高密度单页 62 行商品明细 + 授权签名栏</div>
+            <div class="meta-list">
+              <div><strong>Invoice #:</strong> <span class="mono">261001</span> (Oct. 05, 2026)</div>
+              <div><strong>Issuer:</strong> KAIN CHENG ENTERPRISE CO., LTD.</div>
+              <div><strong>Total:</strong> <span class="mono" style="color:#071C83;font-weight:700;">549 Units · US$8,955.27</span> (CIF HK)</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a class="btn-primary" href="pacu_cif_invoice_261001.html">打开可编辑 HTML</a>
+          <a class="btn-secondary" href="PACU_CIF_Invoice_261001.pdf">下载 A4 PDF</a>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- ========================================================================= -->
-  <!-- A4 SHEET CONTAINER (Minimalist Editorial Commercial Style)                -->
-  <!-- ========================================================================= -->
-  <div id="a4-sheet" class="mx-auto shadow-lg border border-slate-200">
-
-    <!-- 1. RESTRAINED MINIMALIST TOP ACCENT LINE (Deep Navy + Subtle Yellow Segment) -->
-    <div style="height: 6px; width: 100%; display: flex;">
-      <div style="width: 76%; background-color: #071C83;"></div>
-      <div style="width: 24%; background-color: #F5D400;"></div>
-    </div>
-
-    <!-- 2. MAIN SHEET CONTENT -->
-    <div style="padding: 32px 40px 24px 40px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 18px;">
-
-      <!-- HEADER: Left Logo & Client Info | Right Title & Meta Table -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;">
-        <!-- Left Column: PACU Logo + Minimalist Client Block -->
-        <div style="width: 55%;">
-          <div style="width: 156px;">
-            <svg viewBox="0 0 1024 352" style="width: 100%; height: auto;">
-              <use href="#pacu-wordmark-blue" fill="#071C83" />
-              <use href="#pacu-sparks" fill="#F5D400" />
-            </svg>
-            <div contenteditable="true" style="font-size: 11px; font-style: italic; color: #475569; text-align: center; margin-top: -2px; letter-spacing: 0.03em;">
-              Fly beyond the sky
-            </div>
-          </div>
-
-          <!-- Client Info: Clean Left Hairline Rule -->
-          <div style="margin-top: 18px; padding-left: 12px; border-left: 2.5px solid #071C83;">
-            <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;">
-              <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; width: 58px; flex-shrink: 0; letter-spacing: 0.04em;">Name:</span>
-              <span id="client-name" contenteditable="true" oninput="syncSlip()" style="font-size: 13px; font-weight: 700; color: #0f172a; flex: 1;">内有玄机-NJ</span>
-            </div>
-            <div style="display: flex; align-items: baseline; gap: 8px;">
-              <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; width: 58px; flex-shrink: 0; letter-spacing: 0.04em;">Address:</span>
-              <span id="client-address" contenteditable="true" oninput="syncSlip()" style="font-size: 12px; font-weight: 500; color: #334155; flex: 1;">SHANGHAI</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Clean Editorial Title & Date / Receipt # Table -->
-        <div style="width: 42%; display: flex; flex-direction: column; align-items: flex-end;">
-          <h2 contenteditable="true" style="margin: 4px 0 14px 0; font-size: 20px; font-weight: 800; color: #071C83; letter-spacing: 0.02em;">
-            Sales Receipt
-          </h2>
-
-          <table style="width: 100%; border-collapse: collapse; font-size: 12px; border-top: 1.5px solid #071C83; border-bottom: 1px solid #cbd5e1;">
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 6px 10px; font-weight: 700; color: #475569; width: 34%; background-color: #f8fafc;">Date</td>
-              <td id="receipt-date" contenteditable="true" oninput="syncSlip()" style="padding: 6px 10px; font-weight: 500; color: #0f172a; text-align: center;">November 8, 2026</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 10px; font-weight: 700; color: #475569; background-color: #f8fafc;">Receipt #</td>
-              <td id="receipt-num" contenteditable="true" oninput="syncSlip()" class="font-mono" style="padding: 6px 10px; font-weight: 700; color: #071C83; text-align: center;">MG-NJ-26NOV-L0-PW</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- 3. LINE ITEMS TABLE (Crisp Architectural Grid) -->
-      <div style="border-bottom: 1.5px solid #071C83;">
-        <table class="inv-table">
-          <thead>
-            <tr>
-              <th style="width: 11%; text-align: center;">Code</th>
-              <th style="width: 51%; text-align: left;">Description</th>
-              <th style="width: 8%; text-align: center;">Qty</th>
-              <th style="width: 14%; text-align: right;">Price</th>
-              <th style="width: 16%; text-align: right;">Amount</th>
-            </tr>
-          </thead>
-          <tbody id="invoice-rows">
-            <!-- Row 1 -->
-            <tr class="item-row">
-              <td contenteditable="true" class="font-mono" style="text-align: center; font-weight: 600;">3501</td>
-              <td contenteditable="true">Extr Cokatiels and Other Small Parrots Maintenance-PM13 900g</td>
-              <td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align: center;">20</td>
-              <td>
-                <div style="display: flex; justify-content: space-between;">
-                  <span style="color: #94a3b8;">¥</span>
-                  <span contenteditable="true" oninput="recalc()" class="price-cell font-mono">80,00</span>
-                </div>
-              </td>
-              <td>
-                <div style="display: flex; justify-content: space-between; font-weight: 600; color: #0f172a;" class="font-mono">
-                  <span style="color: #64748b;">¥</span>
-                  <span class="amount-cell">1.600,00</span>
-                </div>
-              </td>
-            </tr>
-            <!-- Row 2 -->
-            <tr class="item-row">
-              <td contenteditable="true" class="font-mono" style="text-align: center; font-weight: 600;">3843</td>
-              <td contenteditable="true">Extr Amazonia's fruit 4kg</td>
-              <td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align: center;">20</td>
-              <td>
-                <div style="display: flex; justify-content: space-between;">
-                  <span style="color: #94a3b8;">¥</span>
-                  <span contenteditable="true" oninput="recalc()" class="price-cell font-mono">380,00</span>
-                </div>
-              </td>
-              <td>
-                <div style="display: flex; justify-content: space-between; font-weight: 600; color: #0f172a;" class="font-mono">
-                  <span style="color: #64748b;">¥</span>
-                  <span class="amount-cell">7.600,00</span>
-                </div>
-              </td>
-            </tr>
-            <!-- Row 3 -->
-            <tr class="item-row">
-              <td contenteditable="true" class="font-mono" style="text-align: center; font-weight: 600;">1559</td>
-              <td contenteditable="true">Extr Cockatiels soft 350g</td>
-              <td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align: center;">10</td>
-              <td>
-                <div style="display: flex; justify-content: space-between;">
-                  <span style="color: #94a3b8;">¥</span>
-                  <span contenteditable="true" oninput="recalc()" class="price-cell font-mono">50,00</span>
-                </div>
-              </td>
-              <td>
-                <div style="display: flex; justify-content: space-between; font-weight: 600; color: #0f172a;" class="font-mono">
-                  <span style="color: #64748b;">¥</span>
-                  <span class="amount-cell">500,00</span>
-                </div>
-              </td>
-            </tr>
-            <!-- 6 Clean Blank Rows -->
-            <tr class="item-row blank-row"><td contenteditable="true" class="font-mono" style="text-align:center;"></td><td contenteditable="true"></td><td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align:center;"></td><td><div style="display:flex;justify-content:space-between;"><span></span><span contenteditable="true" oninput="recalc()" class="price-cell font-mono"></span></div></td><td><div style="display:flex;justify-content:space-between;" class="font-mono"><span></span><span class="amount-cell"></span></div></td></tr>
-            <tr class="item-row blank-row"><td contenteditable="true" class="font-mono" style="text-align:center;"></td><td contenteditable="true"></td><td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align:center;"></td><td><div style="display:flex;justify-content:space-between;"><span></span><span contenteditable="true" oninput="recalc()" class="price-cell font-mono"></span></div></td><td><div style="display:flex;justify-content:space-between;" class="font-mono"><span></span><span class="amount-cell"></span></div></td></tr>
-            <tr class="item-row blank-row"><td contenteditable="true" class="font-mono" style="text-align:center;"></td><td contenteditable="true"></td><td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align:center;"></td><td><div style="display:flex;justify-content:space-between;"><span></span><span contenteditable="true" oninput="recalc()" class="price-cell font-mono"></span></div></td><td><div style="display:flex;justify-content:space-between;" class="font-mono"><span></span><span class="amount-cell"></span></div></td></tr>
-            <tr class="item-row blank-row"><td contenteditable="true" class="font-mono" style="text-align:center;"></td><td contenteditable="true"></td><td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align:center;"></td><td><div style="display:flex;justify-content:space-between;"><span></span><span contenteditable="true" oninput="recalc()" class="price-cell font-mono"></span></div></td><td><div style="display:flex;justify-content:space-between;" class="font-mono"><span></span><span class="amount-cell"></span></div></td></tr>
-            <tr class="item-row blank-row"><td contenteditable="true" class="font-mono" style="text-align:center;"></td><td contenteditable="true"></td><td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align:center;"></td><td><div style="display:flex;justify-content:space-between;"><span></span><span contenteditable="true" oninput="recalc()" class="price-cell font-mono"></span></div></td><td><div style="display:flex;justify-content:space-between;" class="font-mono"><span></span><span class="amount-cell"></span></div></td></tr>
-            <tr class="item-row blank-row"><td contenteditable="true" class="font-mono" style="text-align:center;"></td><td contenteditable="true"></td><td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align:center;"></td><td><div style="display:flex;justify-content:space-between;"><span></span><span contenteditable="true" oninput="recalc()" class="price-cell font-mono"></span></div></td><td><div style="display:flex;justify-content:space-between;" class="font-mono"><span></span><span class="amount-cell"></span></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- 4. SUMMARY & PAYMENT BLOCK (Clean Architectural Alignment) -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;">
-
-        <!-- Left: Sale Made By & Payment Method Grid -->
-        <div style="width: 55%; display: flex; flex-direction: column; gap: 12px;">
-          <div style="display: flex; align-items: center; gap: 10px; font-size: 12px;">
-            <span style="font-weight: 700; color: #475569; width: 92px; flex-shrink: 0;">Sale made by:</span>
-            <div contenteditable="true" style="flex: 1; border-bottom: 1px solid #94a3b8; padding: 2px 6px; font-weight: 600; color: #0f172a;">P</div>
-          </div>
-
-          <div style="display: flex; gap: 20px; padding-top: 4px; font-size: 11.5px; color: #334155;">
-            <!-- Card / Check / Money Order Numbers -->
-            <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="width: 96px; color: #64748b;">Credit Card No.</span>
-                <div contenteditable="true" class="font-mono" style="flex: 1; height: 19px; background: #f8fafc; border-bottom: 1px solid #cbd5e1; padding: 0 4px;"></div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="width: 96px; color: #64748b;">Check No.</span>
-                <div contenteditable="true" class="font-mono" style="flex: 1; height: 19px; background: #f8fafc; border-bottom: 1px solid #cbd5e1; padding: 0 4px;"></div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="width: 96px; color: #64748b;">Money Order No.</span>
-                <div contenteditable="true" class="font-mono" style="flex: 1; height: 19px; background: #f8fafc; border-bottom: 1px solid #cbd5e1; padding: 0 4px;"></div>
-              </div>
-            </div>
-
-            <!-- Checkboxes -->
-            <div style="width: 118px; display: flex; flex-direction: column; gap: 4px; padding-left: 14px; border-left: 1px solid #e2e8f0;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Cash</span>
-                <span onclick="toggleCheck(this)" style="width: 15px; height: 15px; border: 1px solid #64748b; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #071C83; cursor: pointer; user-select: none;">x</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Credit Card</span>
-                <span onclick="toggleCheck(this)" style="width: 15px; height: 15px; border: 1px solid #64748b; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #071C83; cursor: pointer; user-select: none;">x</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Check</span>
-                <span onclick="toggleCheck(this)" style="width: 15px; height: 15px; border: 1px solid #64748b; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #071C83; cursor: pointer; user-select: none;">x</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Money Order</span>
-                <span onclick="toggleCheck(this)" style="width: 15px; height: 15px; border: 1px solid #64748b; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #071C83; cursor: pointer; user-select: none;">x</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: Totals Table -->
-        <div style="width: 38%;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 5px 8px; color: #475569;">Subtotal</td>
-              <td style="padding: 5px 4px; color: #94a3b8; width: 20px;">¥</td>
-              <td id="subtotal-val" class="font-mono" style="padding: 5px 8px; text-align: right; font-weight: 600; color: #0f172a;">9.700,00</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 5px 8px; color: #475569;">Whole Payment</td>
-              <td style="padding: 5px 4px; color: #94a3b8;">%</td>
-              <td id="whole-pay-val" contenteditable="true" oninput="recalc()" class="font-mono" style="padding: 5px 8px; text-align: right; color: #334155;">1,00</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 5px 8px; color: #475569;">Sales Tax Rate</td>
-              <td style="padding: 5px 4px; color: #94a3b8;">%</td>
-              <td id="tax-rate-val" contenteditable="true" oninput="recalc()" class="font-mono" style="padding: 5px 8px; text-align: right; color: #334155;">0,00</td>
-            </tr>
-            <tr style="border-bottom: 1.5px solid #071C83;">
-              <td style="padding: 5px 8px; color: #475569;">Sales Tax</td>
-              <td style="padding: 5px 4px; color: #94a3b8;"></td>
-              <td id="tax-val" class="font-mono" style="padding: 5px 8px; text-align: right; color: #64748b;">-</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 8px; font-weight: 800; color: #071C83; font-size: 13px;">Total</td>
-              <td style="padding: 8px 4px; font-weight: 700; color: #071C83; background-color: #F5D400;">¥</td>
-              <td id="total-val" class="font-mono" style="padding: 8px 8px; text-align: right; font-weight: 800; font-size: 13.5px; color: #071C83; background-color: #F5D400;">9.700,00</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- 5. AMOUNT IN WORDS & COMPANY FOOTER -->
-      <div style="text-align: center; padding-top: 4px; border-top: 1px solid #f1f5f9;">
-        <div id="amount-words-main" contenteditable="true" style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 3px;">
-          Nine Thousand Seven Hundred and NO
-        </div>
-        <div contenteditable="true" style="font-size: 12px; font-weight: 700; color: #071C83; margin-bottom: 6px;">
-          Thanks for your business!
-        </div>
-        <div style="font-size: 11px; color: #475569; line-height: 1.45;">
-          <div contenteditable="true">Should you have any enquiries concerning this receipt, please contact Porobo or Huang on <strong style="color: #071C83;">sales@pacufeast.com</strong></div>
-          <div contenteditable="true">RM 162 8/F Eton Tower 8 Hysan Avenue, No.2 San Ping Circuit, Causeway Bay, Hong Kong, 00000</div>
-          <div contenteditable="true">Tel: (852)0000-0000 &nbsp;·&nbsp; Fax: 0000-0000 &nbsp;·&nbsp; E-mail: info@pacufeast.com &nbsp;·&nbsp; Web: TBD</div>
-        </div>
-      </div>
-
-      <!-- 6. CLEAN TEAR-OFF SCISSORS LINE -->
-      <div style="position: relative; padding: 2px 0; display: flex; align-items: center;">
-        <div style="width: 100%; border-top: 1px dashed #64748b;"></div>
-        <span style="position: absolute; right: 16px; top: -8px; background: #ffffff; padding: 0 6px; font-size: 12px; color: #475569;">✂</span>
-      </div>
-
-      <!-- 7. BOTTOM DETACHABLE SALES RECEIPT SLIP -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; padding-top: 2px; border-bottom: 1.5px solid #071C83; padding-bottom: 12px;">
-        <!-- Left Column -->
-        <div style="width: 56%; display: flex; flex-direction: column; justify-content: space-between; gap: 14px;">
-          <div style="padding-left: 10px; border-left: 2px solid #071C83;">
-            <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; font-size: 12px;">
-              <span style="font-weight: 700; color: #64748b; width: 58px; flex-shrink: 0;">Name:</span>
-              <span id="slip-name" contenteditable="true" style="font-weight: 700; color: #0f172a;">内有玄机-NJ</span>
-            </div>
-            <div style="display: flex; align-items: baseline; gap: 8px; font-size: 12px;">
-              <span style="font-weight: 700; color: #64748b; width: 58px; flex-shrink: 0;">Address:</span>
-              <span id="slip-address" contenteditable="true" style="color: #334155;">SHANGHAI</span>
-            </div>
-          </div>
-
-          <div style="font-size: 10.5px; color: #475569; line-height: 1.45;">
-            <div contenteditable="true">RM 162 8/F Eton Tower 8 Hysan Avenue, No.2 San Ping Circuit, Causeway Bay, Hong Kong, 00000</div>
-            <div contenteditable="true">Tel: (852)0000-0000 &nbsp;·&nbsp; Fax: 0000-0000</div>
-            <div contenteditable="true">E-mail: info@pacufeast.com &nbsp;·&nbsp; Web: TBD</div>
-          </div>
-        </div>
-
-        <!-- Right Column -->
-        <div style="width: 40%; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
-          <h3 contenteditable="true" style="margin: 0; font-size: 15px; font-weight: 800; color: #071C83; letter-spacing: 0.02em;">
-            Sales Receipt Slip
-          </h3>
-
-          <table style="width: 100%; border-collapse: collapse; font-size: 11.5px;">
-            <tr>
-              <td style="padding: 3px 0; font-weight: 700; color: #475569; width: 38%;">Date</td>
-              <td id="slip-date" contenteditable="true" style="padding: 3px 0; color: #0f172a; text-align: right;">November 8, 2026</td>
-            </tr>
-            <tr>
-              <td style="padding: 3px 0; font-weight: 700; color: #475569;">Receipt #</td>
-              <td id="slip-num" contenteditable="true" class="font-mono" style="padding: 3px 0; font-weight: 700; color: #071C83; text-align: right;">MG-NJ-26NOV-L0-PW</td>
-            </tr>
-          </table>
-
-          <div style="width: 100%; border-top: 1.5px solid #071C83; border-bottom: 1.5px solid #071C83; padding: 5px 8px; display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc;">
-            <span style="font-size: 12px; font-weight: 700; color: #071C83;">Amount Received</span>
-            <div class="font-mono" style="font-size: 13px; font-weight: 800; color: #0f172a; display: flex; gap: 6px;">
-              <span>¥</span>
-              <span id="slip-amount">9.700,00</span>
-            </div>
-          </div>
-
-          <div id="amount-words-slip" contenteditable="true" style="font-size: 11px; font-weight: 600; color: #334155; text-align: right; width: 100%;">
-            Nine Thousand Seven Hundred and NO
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 8. RESTRAINED ARCHITECTURAL WAVE FOOTER -->
-    <div style="width: 100%; height: 14px; position: relative; overflow: hidden;">
-      <svg viewBox="0 0 840 24" preserveAspectRatio="none" style="width: 100%; height: 100%;">
-        <path d="M0,10 Q280,-4 540,14 Q700,22 840,6 L840,24 L0,24 Z" fill="#071C83" />
-        <path d="M0,18 Q300,8 560,20 Q720,24 840,14 L840,24 L0,24 Z" fill="#F5D400" />
-      </svg>
-    </div>
-
-  </div>
-
-  <script>
-    let numberFormatMode = 'eu';
-
-    function parseLocaleNumber(str) {
-      if (!str) return 0;
-      let clean = str.replace(/[^\d.,-]/g, '').trim();
-      if (!clean) return 0;
-      if (clean.includes(',') && clean.indexOf(',') > clean.lastIndexOf('.')) {
-        clean = clean.replace(/\./g, '').replace(',', '.');
-      } else {
-        clean = clean.replace(/,/g, '');
-      }
-      const val = parseFloat(clean);
-      return isNaN(val) ? 0 : val;
-    }
-
-    function formatNumber(num) {
-      const fixed = num.toFixed(2);
-      const parts = fixed.split('.');
-      if (numberFormatMode === 'eu') {
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        return parts.join(',');
-      } else {
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return parts.join('.');
-      }
-    }
-
-    function numberToEnglishWords(n) {
-      const num = Math.floor(Math.abs(n));
-      if (num === 0) return 'Zero and NO';
-      const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
-        'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-      const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
-      function convertBelowThousand(val) {
-        let str = '';
-        if (val >= 100) {
-          str += ones[Math.floor(val / 100)] + ' Hundred ';
-          val %= 100;
-        }
-        if (val >= 20) {
-          str += tens[Math.floor(val / 10)] + ' ';
-          val %= 10;
-        }
-        if (val > 0) {
-          str += ones[val] + ' ';
-        }
-        return str.trim();
-      }
-
-      let result = '';
-      let rem = num;
-      if (rem >= 1000000) {
-        result += convertBelowThousand(Math.floor(rem / 1000000)) + ' Million ';
-        rem %= 1000000;
-      }
-      if (rem >= 1000) {
-        result += convertBelowThousand(Math.floor(rem / 1000)) + ' Thousand ';
-        rem %= 1000;
-      }
-      if (rem > 0) {
-        result += convertBelowThousand(rem);
-      }
-      const cents = Math.round((Math.abs(n) - num) * 100);
-      const centsStr = cents > 0 ? `${cents}/100` : 'NO';
-      return result.trim() + ' and ' + centsStr;
-    }
-
-    function recalc() {
-      const rows = document.querySelectorAll('#invoice-rows .item-row');
-      let subtotal = 0;
-      rows.forEach((row) => {
-        const qtyEl = row.querySelector('.qty-cell');
-        const priceEl = row.querySelector('.price-cell');
-        const amountEl = row.querySelector('.amount-cell');
-        const currencySpan = amountEl ? amountEl.previousElementSibling : null;
-
-        const qtyText = qtyEl ? qtyEl.innerText.trim() : '';
-        const priceText = priceEl ? priceEl.innerText.trim() : '';
-
-        if (qtyText !== '' && priceText !== '') {
-          const qty = parseLocaleNumber(qtyText);
-          const price = parseLocaleNumber(priceText);
-          const lineAmount = qty * price;
-          subtotal += lineAmount;
-          if (amountEl) amountEl.innerText = formatNumber(lineAmount);
-          if (currencySpan) currencySpan.innerText = '¥';
-        } else {
-          if (amountEl) amountEl.innerText = '';
-          if (currencySpan) currencySpan.innerText = '';
-        }
-      });
-
-      const wholePay = parseLocaleNumber(document.getElementById('whole-pay-val').innerText) || 1;
-      const taxRate = parseLocaleNumber(document.getElementById('tax-rate-val').innerText) || 0;
-      const taxAmount = subtotal * (taxRate / 100);
-      const total = (subtotal * wholePay) + taxAmount;
-
-      document.getElementById('subtotal-val').innerText = formatNumber(subtotal);
-      document.getElementById('tax-val').innerText = taxAmount > 0 ? formatNumber(taxAmount) : '-';
-      document.getElementById('total-val').innerText = formatNumber(total);
-      document.getElementById('slip-amount').innerText = formatNumber(total);
-
-      const words = numberToEnglishWords(total);
-      document.getElementById('amount-words-main').innerText = words;
-      document.getElementById('amount-words-slip').innerText = words;
-    }
-
-    function syncSlip() {
-      document.getElementById('slip-name').innerText = document.getElementById('client-name').innerText;
-      document.getElementById('slip-address').innerText = document.getElementById('client-address').innerText;
-      document.getElementById('slip-date').innerText = document.getElementById('receipt-date').innerText;
-      document.getElementById('slip-num').innerText = document.getElementById('receipt-num').innerText;
-    }
-
-    function toggleCheck(el) {
-      el.innerText = el.innerText.trim() === 'x' ? '' : 'x';
-    }
-
-    function toggleNumberFormat() {
-      numberFormatMode = numberFormatMode === 'eu' ? 'standard' : 'eu';
-      document.getElementById('btn-format').innerText =
-        numberFormatMode === 'eu' ? '格式: 9.700,00' : '格式: 9,700.00';
-      document.querySelectorAll('.price-cell').forEach((el) => {
-        if (el.innerText.trim() !== '') {
-          const val = parseLocaleNumber(el.innerText);
-          el.innerText = formatNumber(val);
-        }
-      });
-      recalc();
-    }
-
-    function addProductRow() {
-      const tbody = document.getElementById('invoice-rows');
-      const tr = document.createElement('tr');
-      tr.className = 'item-row';
-      tr.innerHTML = `
-        <td contenteditable="true" class="font-mono" style="text-align: center; font-weight: 600;">0000</td>
-        <td contenteditable="true">PACU Bird Food Product</td>
-        <td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align: center;">1</td>
-        <td>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: #94a3b8;">¥</span>
-            <span contenteditable="true" oninput="recalc()" class="price-cell font-mono">${formatNumber(100)}</span>
-          </div>
-        </td>
-        <td>
-          <div style="display: flex; justify-content: space-between; font-weight: 600; color: #0f172a;" class="font-mono">
-            <span style="color: #64748b;">¥</span>
-            <span class="amount-cell">${formatNumber(100)}</span>
-          </div>
-        </td>
-      `;
-      tbody.appendChild(tr);
-      recalc();
-    }
-
-    function addBlankRow() {
-      const tbody = document.getElementById('invoice-rows');
-      const tr = document.createElement('tr');
-      tr.className = 'item-row blank-row';
-      tr.innerHTML = `
-        <td contenteditable="true" class="font-mono" style="text-align:center;"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true" oninput="recalc()" class="qty-cell font-mono" style="text-align:center;"></td>
-        <td><div style="display:flex;justify-content:space-between;"><span></span><span contenteditable="true" oninput="recalc()" class="price-cell font-mono"></span></div></td>
-        <td><div style="display:flex;justify-content:space-between;" class="font-mono"><span></span><span class="amount-cell"></span></div></td>
-      `;
-      tbody.appendChild(tr);
-    }
-
-    function removeLastRow() {
-      const tbody = document.getElementById('invoice-rows');
-      if (tbody.children.length > 1) {
-        tbody.removeChild(tbody.lastElementChild);
-        recalc();
-      }
-    }
-  </script>
 </body>
 </html>

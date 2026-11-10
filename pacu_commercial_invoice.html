@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PACU — Commercial Invoice (013-2025)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    :root { --pacu-blue: #071C83; --pacu-yellow: #F5D400; --ink: #0F172A; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #F1F5F9; color: var(--ink);
+      -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .a4-page {
+      width: 210mm; height: 297mm; margin: 20px auto; background: #FFFFFF;
+      box-shadow: 0 20px 50px rgba(7, 28, 131, 0.08);
+      position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden;
+    }
+    .top-bar { height: 5px; width: 100%; display: flex; flex-shrink: 0; }
+    .top-bar-blue { width: 76%; background: #071C83; }
+    .top-bar-yellow { width: 24%; background: #F5D400; }
+    .content-wrap { padding: 14px 30px 6px 30px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    
+    .header-box {
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1.5px solid #071C83; padding-bottom: 6px; margin-bottom: 6px;
+    }
+    .party-grid {
+      display: grid; grid-template-columns: 1fr 1fr 220px; gap: 10px;
+      margin-bottom: 6px; font-size: 9px; line-height: 1.32;
+    }
+    .party-card {
+      border-left: 2.5px solid #071C83; padding-left: 8px;
+    }
+    .party-title { font-size: 8.5px; font-weight: 800; color: #071C83; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1px; }
+    
+    .inv-table { width: 100%; border-collapse: collapse; border: 1px solid #CBD5E1; }
+    .inv-table thead th {
+      background: #071C83; color: #FFFFFF; font-size: 8px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; padding: 3.5px 6px;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .inv-table tbody td {
+      font-size: 8.4px; padding: 1.65px 6px; border-bottom: 1px solid #E2E8F0;
+      border-right: 1px solid #E2E8F0; color: #1E293B; line-height: 1.15;
+    }
+    .inv-table tbody tr:nth-child(even) { background: #F8FAFC; }
+    .summary-row td { background: #FFFFFF !important; padding: 2px 6px !important; font-size: 8.5px !important; }
+    
+    .cargo-bottom-grid {
+      display: grid; grid-template-columns: 1fr 1.25fr; gap: 12px; margin-top: 5px; align-items: start;
+    }
+    .cargo-box {
+      border: 1px solid #CBD5E1; font-size: 8.3px;
+    }
+    .cargo-header {
+      background: #071C83; color: #FFFFFF; font-weight: 700; text-align: center;
+      padding: 2.5px 8px; font-size: 8.5px; letter-spacing: 0.05em; text-transform: uppercase;
+      border-left: 4px solid #F5D400;
+    }
+    .cargo-row {
+      display: grid; grid-template-columns: 195px 1fr; border-bottom: 1px solid #E2E8F0;
+    }
+    .cargo-row:last-child { border-bottom: none; }
+    .cargo-label { padding: 2px 8px; font-weight: 700; color: #0F172A; text-align: right; border-right: 1px solid #E2E8F0; background: #F8FAFC; }
+    .cargo-val { padding: 2px 8px; color: #1E293B; font-weight: 600; }
+
+    .footer-meta {
+      font-size: 8.2px; line-height: 1.32; color: #334155; display: flex; flex-direction: column; gap: 4px;
+    }
+    .footer-wave { width: 100%; height: 10px; display: block; flex-shrink: 0; }
+    @media print {
+      @page { size: A4 portrait; margin: 0; }
+      body { background: #FFFFFF; }
+      .no-print { display: none !important; }
+      .a4-page { margin: 0; box-shadow: none; width: 210mm; height: 297mm; }
+    }
+  </style>
+</head>
+<body>
+  
+<svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+  <defs>
+    <g id="pacu-logo-exact">
+      <path d="M74.5,62.0 Q85.0,61.0 104.5,61.0 Q124.0,61.0 135.0,62.0 Q146.0,63.0 158.0,65.5 Q170.0,68.0 183.0,73.5 Q196.0,79.0 202.5,83.5 Q209.0,88.0 218.0,97.5 Q227.0,107.0 232.0,115.5 Q237.0,124.0 240.5,135.0 Q244.0,146.0 244.5,163.5 Q245.0,181.0 244.0,187.0 Q243.0,193.0 239.5,203.5 Q236.0,214.0 228.5,226.5 Q221.0,239.0 212.5,247.5 Q204.0,256.0 193.0,262.5 Q182.0,269.0 174.5,271.5 Q167.0,274.0 152.5,275.5 Q138.0,277.0 134.5,278.5 Q131.0,280.0 129.5,282.5 Q128.0,285.0 128.0,290.0 Q128.0,295.0 128.5,301.5 Q129.0,308.0 126.0,316.5 Q123.0,325.0 119.0,329.0 Q115.0,333.0 106.0,336.0 Q97.0,339.0 80.0,339.0 Q63.0,339.0 56.5,338.0 Q50.0,337.0 46.5,335.5 Q43.0,334.0 36.5,327.5 Q30.0,321.0 26.0,310.5 Q22.0,300.0 21.0,292.0 Q20.0,284.0 19.0,250.5 Q18.0,217.0 15.5,187.5 Q13.0,158.0 13.0,138.5 Q13.0,119.0 14.5,107.0 Q16.0,95.0 19.0,89.0 Q22.0,83.0 25.0,80.0 Q28.0,77.0 35.0,73.0 Q42.0,69.0 53.0,66.0 Q64.0,63.0 74.5,62.0 Z M638.5,80.5 Q651.0,79.0 664.0,80.0 Q677.0,81.0 687.0,84.5 Q697.0,88.0 701.0,90.5 Q705.0,93.0 710.0,98.0 Q715.0,103.0 718.0,109.5 Q721.0,116.0 721.5,123.5 Q722.0,131.0 721.0,136.0 Q720.0,141.0 718.0,146.0 Q716.0,151.0 711.5,156.5 Q707.0,162.0 703.5,164.0 Q700.0,166.0 695.5,167.0 Q691.0,168.0 674.5,168.0 Q658.0,168.0 652.0,169.5 Q646.0,171.0 642.0,173.0 Q638.0,175.0 633.5,179.0 Q629.0,183.0 626.0,188.0 Q623.0,193.0 621.5,199.0 Q620.0,205.0 620.5,210.5 Q621.0,216.0 623.0,221.0 Q625.0,226.0 630.0,231.5 Q635.0,237.0 639.5,239.5 Q644.0,242.0 654.5,243.5 Q665.0,245.0 677.5,242.0 Q690.0,239.0 696.5,239.0 Q703.0,239.0 709.5,241.5 Q716.0,244.0 722.0,249.5 Q728.0,255.0 732.0,264.0 Q736.0,273.0 736.5,280.0 Q737.0,287.0 736.0,292.5 Q735.0,298.0 731.0,306.0 Q727.0,314.0 720.5,320.0 Q714.0,326.0 709.0,328.5 Q704.0,331.0 691.5,334.5 Q679.0,338.0 660.0,338.5 Q641.0,339.0 628.0,337.0 Q615.0,335.0 605.0,331.5 Q595.0,328.0 581.5,320.0 Q568.0,312.0 557.0,301.5 Q546.0,291.0 539.5,281.5 Q533.0,272.0 527.0,256.5 Q521.0,241.0 519.5,229.0 Q518.0,217.0 519.5,201.0 Q521.0,185.0 525.0,172.5 Q529.0,160.0 537.5,145.5 Q546.0,131.0 557.0,120.0 Q568.0,109.0 576.0,103.5 Q584.0,98.0 591.0,94.5 Q598.0,91.0 612.0,86.5 Q626.0,82.0 638.5,80.5 Z M364.0,88.5 Q372.0,87.0 383.0,87.5 Q394.0,88.0 403.0,91.0 Q412.0,94.0 418.0,98.0 Q424.0,102.0 429.5,108.5 Q435.0,115.0 441.5,127.5 Q448.0,140.0 458.0,164.0 Q468.0,188.0 483.5,230.5 Q499.0,273.0 501.5,285.5 Q504.0,298.0 504.0,303.0 Q504.0,308.0 502.5,314.5 Q501.0,321.0 496.5,327.0 Q492.0,333.0 483.0,336.5 Q474.0,340.0 464.0,340.0 Q454.0,340.0 446.0,337.0 Q438.0,334.0 432.0,329.0 Q426.0,324.0 422.0,318.0 Q418.0,312.0 415.5,306.0 Q413.0,300.0 409.0,295.0 Q405.0,290.0 401.5,288.0 Q398.0,286.0 391.0,284.5 Q384.0,283.0 375.5,283.5 Q367.0,284.0 361.0,286.5 Q355.0,289.0 350.5,293.5 Q346.0,298.0 338.5,311.0 Q331.0,324.0 326.0,329.0 Q321.0,334.0 313.0,337.0 Q305.0,340.0 295.0,340.0 Q285.0,340.0 276.0,337.0 Q267.0,334.0 261.5,328.5 Q256.0,323.0 254.0,315.5 Q252.0,308.0 254.5,294.0 Q257.0,280.0 268.0,245.0 Q279.0,210.0 292.0,175.5 Q305.0,141.0 309.5,132.0 Q314.0,123.0 318.0,117.5 Q322.0,112.0 331.0,104.5 Q340.0,97.0 348.0,93.5 Q356.0,90.0 364.0,88.5 Z M958.0,89.5 Q967.0,87.0 972.0,87.0 Q977.0,87.0 983.5,88.5 Q990.0,90.0 995.5,93.0 Q1001.0,96.0 1004.5,99.5 Q1008.0,103.0 1010.5,107.5 Q1013.0,112.0 1014.5,117.5 Q1016.0,123.0 1017.5,139.5 Q1019.0,156.0 1017.5,184.0 Q1016.0,212.0 1012.0,232.5 Q1008.0,253.0 1000.5,270.0 Q993.0,287.0 988.5,293.5 Q984.0,300.0 976.0,308.0 Q968.0,316.0 957.0,323.0 Q946.0,330.0 932.0,334.5 Q918.0,339.0 899.0,339.5 Q880.0,340.0 868.5,337.5 Q857.0,335.0 844.5,329.5 Q832.0,324.0 820.5,315.5 Q809.0,307.0 800.0,296.5 Q791.0,286.0 783.0,270.0 Q775.0,254.0 772.0,244.0 Q769.0,234.0 767.0,220.5 Q765.0,207.0 764.5,176.0 Q764.0,145.0 765.5,137.5 Q767.0,130.0 769.5,124.5 Q772.0,119.0 778.0,112.5 Q784.0,106.0 793.0,102.0 Q802.0,98.0 810.5,97.5 Q819.0,97.0 826.5,99.5 Q834.0,102.0 839.0,106.5 Q844.0,111.0 846.5,115.0 Q849.0,119.0 851.0,125.5 Q853.0,132.0 852.5,152.0 Q852.0,172.0 853.0,180.0 Q854.0,188.0 856.0,194.5 Q858.0,201.0 860.5,205.5 Q863.0,210.0 868.0,214.5 Q873.0,219.0 879.0,221.0 Q885.0,223.0 891.5,223.0 Q898.0,223.0 905.0,220.0 Q912.0,217.0 915.5,213.0 Q919.0,209.0 921.5,203.0 Q924.0,197.0 925.0,192.0 Q926.0,187.0 926.0,158.0 Q926.0,129.0 929.5,118.0 Q933.0,107.0 938.5,101.0 Q944.0,95.0 946.0,94.5 Q948.0,94.0 948.5,93.0 Q949.0,92.0 958.0,89.5 Z M144.5,107.5 Q135.0,106.0 125.0,108.5 Q115.0,111.0 111.0,113.5 Q107.0,116.0 102.0,121.0 Q97.0,126.0 93.5,133.5 Q90.0,141.0 89.5,148.5 Q89.0,156.0 87.0,158.5 Q85.0,161.0 70.5,161.5 Q56.0,162.0 57.0,165.5 Q58.0,169.0 61.0,172.5 Q64.0,176.0 71.5,180.0 Q79.0,184.0 81.0,186.0 Q83.0,188.0 82.5,191.0 Q82.0,194.0 76.0,200.0 Q70.0,206.0 63.5,210.0 Q57.0,214.0 57.5,216.0 Q58.0,218.0 62.0,220.5 Q66.0,223.0 78.0,225.0 Q90.0,227.0 101.0,227.0 Q112.0,227.0 118.0,226.0 Q124.0,225.0 136.5,220.0 Q149.0,215.0 158.5,207.0 Q168.0,199.0 174.5,188.0 Q181.0,177.0 182.5,170.5 Q184.0,164.0 183.5,151.5 Q183.0,139.0 187.0,135.0 Q191.0,131.0 192.0,127.0 Q193.0,123.0 192.0,122.0 Q191.0,121.0 182.5,121.0 Q174.0,121.0 164.0,115.0 Q154.0,109.0 144.5,107.5 Z M136.0,135.0 Q139.0,131.0 142.5,131.5 Q146.0,132.0 148.5,134.5 Q151.0,137.0 151.0,140.0 Q151.0,143.0 148.0,146.0 Q145.0,149.0 142.0,149.0 Q139.0,149.0 136.0,146.0 Q133.0,143.0 133.0,141.0 Q133.0,139.0 136.0,135.0 Z M380.0,181.0 Q375.0,181.0 372.5,182.0 Q370.0,183.0 367.5,185.5 Q365.0,188.0 361.0,195.5 Q357.0,203.0 355.5,207.0 Q354.0,211.0 354.0,217.5 Q354.0,224.0 356.5,227.5 Q359.0,231.0 362.0,232.5 Q365.0,234.0 374.5,234.5 Q384.0,235.0 390.0,234.0 Q396.0,233.0 400.0,230.0 Q404.0,227.0 404.5,220.0 Q405.0,213.0 403.5,208.0 Q402.0,203.0 398.0,196.0 Q394.0,189.0 389.5,185.0 Q385.0,181.0 380.0,181.0 Z" fill="#071C83" fill-rule="evenodd" />
+      <path d="M221.5,18.0 Q225.0,15.0 228.0,15.0 Q231.0,15.0 234.5,16.5 Q238.0,18.0 239.5,19.5 Q241.0,21.0 241.0,25.0 Q241.0,29.0 238.0,35.0 Q235.0,41.0 232.0,44.0 Q229.0,47.0 229.0,48.0 Q229.0,49.0 228.0,49.5 Q227.0,50.0 226.5,52.0 Q226.0,54.0 223.0,58.0 Q220.0,62.0 218.5,63.0 Q217.0,64.0 214.5,64.0 Q212.0,64.0 210.0,63.0 Q208.0,62.0 207.0,57.0 Q206.0,52.0 212.0,36.5 Q218.0,21.0 221.5,18.0 Z M266.0,43.0 Q268.0,42.0 271.5,42.0 Q275.0,42.0 278.0,43.5 Q281.0,45.0 283.0,48.0 Q285.0,51.0 284.5,54.0 Q284.0,57.0 280.0,62.0 Q276.0,67.0 268.0,70.5 Q260.0,74.0 257.5,76.5 Q255.0,79.0 252.0,80.0 Q249.0,81.0 247.5,82.0 Q246.0,83.0 243.0,83.0 Q240.0,83.0 238.0,82.0 Q236.0,81.0 235.0,79.0 Q234.0,77.0 234.5,74.5 Q235.0,72.0 239.5,66.0 Q244.0,60.0 245.0,60.0 Q246.0,60.0 247.5,58.0 Q249.0,56.0 250.0,56.0 Q251.0,56.0 255.5,51.5 Q260.0,47.0 261.0,47.0 Q262.0,47.0 263.0,45.5 Q264.0,44.0 266.0,43.0 Z M275.5,90.0 Q280.0,88.0 285.0,88.0 Q290.0,88.0 294.5,90.0 Q299.0,92.0 300.0,94.0 Q301.0,96.0 300.5,99.5 Q300.0,103.0 299.0,105.0 Q298.0,107.0 294.5,109.5 Q291.0,112.0 280.0,112.0 Q269.0,112.0 264.0,112.0 Q259.0,112.0 255.5,111.0 Q252.0,110.0 250.5,108.5 Q249.0,107.0 249.0,103.5 Q249.0,100.0 253.0,97.0 Q257.0,94.0 264.0,93.0 Q271.0,92.0 275.5,90.0 Z" fill="#F5D400" fill-rule="evenodd" />
+    </g>
+  </defs>
+</svg>
+
+  <div class="no-print" style="position:sticky;top:0;z-index:50;background:rgba(15,23,42,0.95);color:#fff;padding:10px 24px;display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+    <div><strong style="color:#F5D400;">PACU Minimalist Editorial Template</strong> · Commercial Invoice (<code class="mono">013-2025</code> · Single-Page A4)</div>
+    <div style="display:flex;gap:10px;">
+      <a href="index.html" style="color:#CBD5E1;text-decoration:none;padding:6px 12px;border:1px solid #475569;border-radius:6px;">← All Templates</a>
+      <button onclick="window.print()" style="background:#F5D400;color:#071C83;border:none;padding:6px 14px;border-radius:6px;font-weight:700;cursor:pointer;">Print / Save A4 PDF</button>
+    </div>
+  </div>
+
+  <div class="a4-page" contenteditable="true" spellcheck="false">
+    <div class="top-bar"><div class="top-bar-blue"></div><div class="top-bar-yellow"></div></div>
+    <div class="content-wrap">
+      <div>
+        <div class="header-box">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg viewBox="0 0 1024 352" style="height:34px;width:auto;display:block;"><use href="#pacu-logo-exact" /></svg>
+            <div style="border-left:1.5px solid #CBD5E1;padding-left:10px;">
+              <div style="font-size:10.5px;font-weight:800;color:#0F172A;letter-spacing:0.02em;">MASTERZOO INDUSTRIA E COMERCIO DE RAÇÕES LTDA</div>
+              <div style="font-size:8px;color:#475569;">RODOVIA MG 0,50, KM 47,7 - S/N -VIANOPOLIS - BETIM - MG - 32628-105 / BRAZIL · CNPJ: 12.911.881/0003-43</div>
+            </div>
+          </div>
+          <div style="font-size:15px;font-weight:800;color:#071C83;letter-spacing:0.08em;border-bottom:2.5px solid #F5D400;padding-bottom:1px;">INVOICE</div>
+        </div>
+
+        <div class="party-grid">
+          <div class="party-card">
+            <div class="party-title">Consignee/Notify:</div>
+            <div><strong>Name:</strong> Evergrow Health Supplies Limited</div>
+            <div><strong>Andress:</strong> Unit D2, 6/F, Tuen Mun Industrial Centre, No. 2 San Ping Circuit, Tuen Mun, Nt, Hong Kong SAR, China</div>
+            <div><strong>Tel:</strong> +86 13916148284 · <strong>E-mail:</strong> Katro.huang@gmail.com</div>
+          </div>
+          <div class="party-card">
+            <div class="party-title">Importer:</div>
+            <div><strong>Name:</strong> Evergrow Health Supplies Limited</div>
+            <div><strong>Andress:</strong> Unit D2, 6/F, Tuen Mun Industrial Centre, No. 2 San Ping Circuit, Tuen Mun, Nt, Hong Kong SAR, China</div>
+            <div><strong>Tel:</strong> +86 13916148284 · <strong>E-mail:</strong> Katro.huang@gmail.com</div>
+          </div>
+          <div style="background:#F8FAFC;border:1px solid #E2E8F0;padding:4px 8px;display:flex;flex-direction:column;justify-content:center;gap:1.5px;">
+            <div><strong>Date:</strong> January 7, 2026</div>
+            <div><strong>Invoice n°:</strong> <span class="mono" style="color:#071C83;font-weight:700;">013-2025</span></div>
+            <div><strong>Incoterm:</strong> EXW</div>
+            <div><strong>Condiciones de pago:</strong> 100% in advance</div>
+          </div>
+        </div>
+
+        <table class="inv-table">
+          <thead>
+            <tr>
+              <th style="width:44px;text-align:center;">CODE</th>
+              <th style="text-align:left;">DESCRIPTION OF GOODS</th>
+              <th style="width:60px;text-align:center;">HS CODE</th>
+              <th style="width:56px;text-align:center;">QUANTITY</th>
+              <th style="width:82px;text-align:right;">UNIT PRICE (USD)</th>
+              <th style="width:92px;text-align:right;border-right:none;">TOTAL PRICE (USD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">721</td>
+      <td style="font-weight:500;">Extr Cokatiels and Other Small Parrots Maintenance -PM13 5 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">128</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>16,88</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>2.160,64</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">725</td>
+      <td style="font-weight:500;">Extr Big Parrots Super Premium - AM16 4 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">64</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>12,35</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>790,40</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">728</td>
+      <td style="font-weight:500;">Extr Toucans and Turacos - T19 700 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>3,87</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>154,80</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">730</td>
+      <td style="font-weight:500;">Extr bullbul, Mynas and other Omnivores birdsC - O20 350 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>1,89</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>75,60</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">1220</td>
+      <td style="font-weight:500;">Tropical Big Parrots Mix 700 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">100</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>4,06</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>406,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">1559</td>
+      <td style="font-weight:500;">Extr Cockatiels soft 350 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,38</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>95,20</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">1853</td>
+      <td style="font-weight:500;">Extr Macaws and African Gray Maintenance - A17 12 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>39,37</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>1.574,80</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">1943</td>
+      <td style="font-weight:500;">Extr. Big Parrots Super Premium with vegetables 600 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">100</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>3,71</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>371,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">1950</td>
+      <td style="font-weight:500;">Extr Amazons and Other Big Parrots LIGHT 600 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">120</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>3,66</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>439,20</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">1951</td>
+      <td style="font-weight:500;">Extr Cockatiels and Small Parrots LIGHT 350 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">120</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,66</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>319,20</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">2149</td>
+      <td style="font-weight:500;">Extr Ornamental Rabbits Adult 500 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,21</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>88,40</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">2151</td>
+      <td style="font-weight:500;">Extr Guinea Pigs 500 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,18</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>87,20</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">2154</td>
+      <td style="font-weight:500;">Extr Chinchillas 500 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,56</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>102,40</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">2161</td>
+      <td style="font-weight:500;">Extr Ornamental Rabbits Babies 500 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,72</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>108,80</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">2290</td>
+      <td style="font-weight:500;">Extr. Big Parrots Super Premium Mini Bits 600 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">220</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,79</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>613,80</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">2292</td>
+      <td style="font-weight:500;">Lory Food - L18 900 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">100</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>6,74</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>674,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">2299</td>
+      <td style="font-weight:500;">Egg Softfood with honey and Propolis for Parrots 300 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">300</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,41</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>723,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3023</td>
+      <td style="font-weight:500;">Extr Hedgehogs 700 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">20</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>6,55</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>131,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3470</td>
+      <td style="font-weight:500;">Extr Hamsters and Gerbils 300 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">20</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>1,59</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>31,80</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3479</td>
+      <td style="font-weight:500;">Egg soffood with honey and Propolis for Cockatiels and other Parrots 5 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">2</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>22,92</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>45,84</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3499</td>
+      <td style="font-weight:500;">Extr Hamsters and Gerbils 900 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">10</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>3,85</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>38,50</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3501</td>
+      <td style="font-weight:500;">Extr Cockatiels and Small Parrots (Mini Bits) PM13 900 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">50</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>4,09</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>204,50</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3595</td>
+      <td style="font-weight:500;">Extr twisters 500 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">20</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,26</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>45,20</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3665</td>
+      <td style="font-weight:500;">Extr Macaws and African Gray Maintenance 600 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">300</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>3,36</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>1.008,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3666</td>
+      <td style="font-weight:500;">Extr Macaws and African Gray Maintenance 4 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">128</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>13,88</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>1.776,64</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3692</td>
+      <td style="font-weight:500;">Extr Guinea Pigs 1,2 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>4,67</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>186,80</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3778</td>
+      <td style="font-weight:500;">Extr Cockatiels and Medium Parrots (Regular Bits) -MM15 700 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">100</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,95</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>295,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3779</td>
+      <td style="font-weight:500;">Extr Medium Parrots (regular bits) Maintenance - MM15 5 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">20</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>16,07</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>321,40</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3780</td>
+      <td style="font-weight:500;">Extr Cockatiels and Medium Parrots (Regular Bits) -MM15 300 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">300</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>1,69</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>507,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3813</td>
+      <td style="font-weight:500;">Ext Lory Food SOFT - 700 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">40</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>5,72</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>228,80</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3839</td>
+      <td style="font-weight:500;">Extr Psittaegg 5 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">10</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>21,04</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>210,40</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3840</td>
+      <td style="font-weight:500;">Extr Amazonia´s fruit Professinal 12 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">1</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>39,17</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>39,17</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3843</td>
+      <td style="font-weight:500;">Extr Amazonia´s fruit 4 kg</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">336</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>16,48</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>5.537,28</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3849</td>
+      <td style="font-weight:500;">Antiaging for Parrots</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">80</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>3,90</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>312,00</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3850</td>
+      <td style="font-weight:500;">Antiaging for Cockatiels and Small Parrots 350g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230990</td>
+      <td class="mono" style="text-align:center;font-weight:600;">80</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>2,47</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>197,60</td>
+    </tr>
+    <tr class="filled-row">
+      <td class="mono" style="text-align:center;font-weight:700;color:#071C83;">3875</td>
+      <td style="font-weight:500;">Extr Cockatiels and Small Parrots (Mini Bits) PM13 300 g</td>
+      <td class="mono" style="text-align:center;color:#475569;">230991</td>
+      <td class="mono" style="text-align:center;font-weight:600;">600</td>
+      <td class="mono" style="text-align:right;white-space:nowrap;"><span style="color:#94A3B8;float:left;">$</span>1,63</td>
+      <td class="mono" style="text-align:right;font-weight:700;color:#0A1445;white-space:nowrap;"><span style="color:#64748B;font-weight:500;float:left;">$</span>978,00</td>
+    </tr>
+            <tr class="summary-row">
+              <td colspan="4" style="border:none;"></td>
+              <td style="text-align:right;font-weight:700;color:#475569;border-top:1.5px solid #071C83;">SUBTOTAL</td>
+              <td class="mono" style="text-align:right;font-weight:700;border-top:1.5px solid #071C83;"><span style="float:left;color:#64748B;">$</span>20.879,37</td>
+            </tr>
+            <tr class="summary-row">
+              <td colspan="4" style="border:none;"></td>
+              <td style="text-align:right;font-weight:700;color:#475569;">DISCOUNT</td>
+              <td class="mono" style="text-align:right;font-weight:600;"><span style="float:left;color:#64748B;">$</span>208,79</td>
+            </tr>
+            <tr class="summary-row">
+              <td colspan="4" style="border:none;"></td>
+              <td style="text-align:right;font-weight:700;color:#475569;">FREIGHT EXPENSES</td>
+              <td class="mono" style="text-align:right;font-weight:600;"><span style="float:left;color:#64748B;">$</span>2.785,91</td>
+            </tr>
+            <tr class="summary-row">
+              <td colspan="4" style="border:none;"></td>
+              <td style="text-align:right;font-weight:800;color:#071C83;background:#F5D400 !important;border-top:1.5px solid #071C83;border-bottom:1.5px solid #071C83;">TOTAL:</td>
+              <td class="mono" style="text-align:right;font-weight:800;color:#071C83;background:#F5D400 !important;border-top:1.5px solid #071C83;border-bottom:1.5px solid #071C83;"><span style="float:left;">$</span>23.456,49</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cargo-bottom-grid">
+        <div class="cargo-box">
+          <div class="cargo-header">General cargo data: 013-2025</div>
+          <div class="cargo-row"><div class="cargo-label">Total net weight:</div><div class="cargo-val mono">4852,00</div></div>
+          <div class="cargo-row"><div class="cargo-label">Total gross weight with pallets weight:</div><div class="cargo-val mono">5253,916</div></div>
+          <div class="cargo-row"><div class="cargo-label">Total cargo volume:</div><div class="cargo-val mono">617</div></div>
+          <div class="cargo-row"><div class="cargo-label">Total certified wooden pallets:</div><div class="cargo-val mono">10</div></div>
+          <div class="cargo-row"><div class="cargo-label">Kind of Packing:</div><div class="cargo-val">Laminated Plastic Bag</div></div>
+        </div>
+
+        <div class="footer-meta">
+          <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:8px;background:#F8FAFC;border:1px solid #E2E8F0;padding:5px 8px;">
+            <div>
+              <div style="font-weight:800;color:#071C83;margin-bottom:1px;text-transform:uppercase;font-size:8px;">BANK DETAILS</div>
+              <div><strong>Bank name:</strong> BANK OF NEW YORK MELLON CORPORATION</div>
+              <div><strong>Swift Code:</strong> <span class="mono">OURIBRSPXXX</span> · <strong>Account:</strong> <span class="mono">8901520306</span></div>
+              <div><strong>Iban:</strong> <span class="mono">BR2078632767000010036541951C1</span></div>
+              <div><strong>Beneficiary:</strong> MASTERZOO INDUSTRIA E COMERCIO DE RACOES LTDA</div>
+              <div style="margin-top:2px;"><strong style="color:#071C83;">Saller:</strong> MASTERZOO INDÚSTRIA E COMÉRCIO DE RAÇÕES LTDA · CNPJ: 12.911.881/0003-43</div>
+            </div>
+            <div>
+              <div><strong>Country of origin:</strong> Brazil</div>
+              <div><strong>Country of acquisition:</strong> Hong Kong</div>
+              <div style="margin-top:2px;"><strong style="color:#071C83;">Notice:</strong> Payment shall be made by the recipient specified in the invoice, ensuring that the name stated on the proof of payment exactly matches the name stated in the document.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg class="footer-wave" viewBox="0 0 1440 24" preserveAspectRatio="none">
+      <path d="M0,24 L1440,24 L1440,8 C1180,22 920,0 640,10 C360,20 180,4 0,14 Z" fill="#F5D400"/>
+      <path d="M0,24 L1440,24 L1440,14 C1140,24 880,6 580,15 C300,23 150,12 0,19 Z" fill="#071C83"/>
+    </svg>
+  </div>
+</body>
+</html>
